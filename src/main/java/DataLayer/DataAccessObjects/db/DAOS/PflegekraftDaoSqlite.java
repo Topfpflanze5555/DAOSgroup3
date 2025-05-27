@@ -7,27 +7,32 @@ import java.util.Optional;
 
 public class PflegekraftDaoSqlite implements IDao<Pflegekraft> {
     @Override
-    public Optional<Pflegekraft> get(long id) {
-        return Optional.empty();
+    public Pflegekraft create(Pflegekraft pflegekraft) {
+        return null;
     }
 
     @Override
-    public List<Pflegekraft> getAll() {
+    public Pflegekraft create() {
+        return null;
+    }
+
+    @Override
+    public Pflegekraft read(int Id) {
+        return null;
+    }
+
+    @Override
+    public List<Pflegekraft> read() {
         return List.of();
     }
 
     @Override
-    public void save(Pflegekraft pflegekraft) {
+    public void delete(int Id) {
 
     }
 
     @Override
-    public void update(Pflegekraft pflegekraft, String[] params) {
-
-    }
-
-    @Override
-    public void delete(Pflegekraft pflegekraft) {
+    public void update(Pflegekraft pflegekraft) {
 
     }
 }

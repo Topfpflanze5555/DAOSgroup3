@@ -5,27 +5,32 @@ import java.util.Optional;
 
 public class AbstractDaoSqlite implements IDao {
     @Override
-    public Optional get(long id) {
-        return Optional.empty();
+    public Object create(Object o) {
+        return null;
     }
 
     @Override
-    public List getAll() {
+    public Object create() {
+        return null;
+    }
+
+    @Override
+    public Object read(int Id) {
+        return null;
+    }
+
+    @Override
+    public List read() {
         return List.of();
     }
 
     @Override
-    public void save(Object o) {
+    public void delete(int Id) {
 
     }
 
     @Override
-    public void update(Object o, String[] params) {
-
-    }
-
-    @Override
-    public void delete(Object o) {
+    public void update(Object o) {
 
     }
 }

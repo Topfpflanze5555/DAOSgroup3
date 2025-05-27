@@ -7,27 +7,32 @@ import java.util.Optional;
 
 public class LeistungDaoSqlite implements IDao<Leistung> {
     @Override
-    public Optional<Leistung> get(long id) {
-        return Optional.empty();
+    public Leistung create(Leistung leistung) {
+        return null;
     }
 
     @Override
-    public List<Leistung> getAll() {
+    public Leistung create() {
+        return null;
+    }
+
+    @Override
+    public Leistung read(int Id) {
+        return null;
+    }
+
+    @Override
+    public List<Leistung> read() {
         return List.of();
     }
 
     @Override
-    public void save(Leistung leistung) {
+    public void update(Leistung leistung) {
 
     }
 
     @Override
-    public void update(Leistung leistung, String[] params) {
-
-    }
-
-    @Override
-    public void delete(Leistung leistung) {
+    public void delete(int Id) {
 
     }
 }

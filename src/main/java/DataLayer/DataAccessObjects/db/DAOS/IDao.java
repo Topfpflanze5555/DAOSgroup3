@@ -4,13 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IDao<T> {
-    Optional<T> get(long id);
-
-    List<T> getAll();
-
-    void save(T t);
-
-    void update(T t, String[] params);
-
-    void delete(T t);
+    T create();
+    T create(T t);
+    T read(int Id);
+    List<T> read();
+    void update(T t);
+    void delete(int Id);
 }

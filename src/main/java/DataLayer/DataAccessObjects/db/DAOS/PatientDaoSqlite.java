@@ -7,27 +7,32 @@ import java.util.Optional;
 
 public class PatientDaoSqlite implements IDao<Patient> {
     @Override
-    public Optional<Patient> get(long id) {
-        return Optional.empty();
+    public Patient create(Patient patient) {
+        return null;
     }
 
     @Override
-    public List<Patient> getAll() {
+    public Patient create() {
+        return null;
+    }
+
+    @Override
+    public Patient read(int Id) {
+        return null;
+    }
+
+    @Override
+    public List<Patient> read() {
         return List.of();
     }
 
     @Override
-    public void save(Patient patient) {
+    public void update(Patient patient) {
 
     }
 
     @Override
-    public void update(Patient patient, String[] params) {
-
-    }
-
-    @Override
-    public void delete(Patient patient) {
+    public void delete(int Id) {
 
     }
 }

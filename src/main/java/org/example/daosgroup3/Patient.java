@@ -1,4 +1,4 @@
-package DAOSgroup3.src.main.java;
+package org.example.daosgroup3;
 
 public class Patient
 {

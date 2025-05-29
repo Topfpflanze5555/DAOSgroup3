@@ -13,15 +13,17 @@ public class ConfigurationPersistenceService
 
     private ConfigurationPersistenceService()
     {
+        //standardConfig
         HashMap<Configuration.MODELS, Configuration.SAVEDTYPE> standardConfig = new HashMap<>();
         standardConfig.put(Configuration.MODELS.Leistung, Configuration.SAVEDTYPE.XML);
         standardConfig.put(Configuration.MODELS.Patient, Configuration.SAVEDTYPE.XML);
         standardConfig.put(Configuration.MODELS.Pflegekraft, Configuration.SAVEDTYPE.XML);
         configuration = new Configuration(standardConfig);
-
+        //
         try {
-            file.createNewFile();
-            writeFile(configuration);
+            if (file.createNewFile()) {
+                writeFile(configuration);
+            }
         }
         catch (IOException e)
         {
@@ -64,7 +66,7 @@ public class ConfigurationPersistenceService
             return new Configuration(output);
 
         }
-        catch (IOException e) {
+        catch (IOException | JSONException e) {
             throw new ConfigurationException(e.getMessage());
         }
 

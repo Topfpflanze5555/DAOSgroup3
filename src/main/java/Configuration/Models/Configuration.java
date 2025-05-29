@@ -15,6 +15,16 @@ public class Configuration {
     public HashMap<MODELS, SAVEDTYPE> getConfiguration() {
         return configuration;
     }
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Configuration:\n");
+        for (MODELS m : MODELS.values()) {
+            str.append(m.toString()).append("\n");
+            str.append(getConfiguration().get(m).toString()).append("\n");
+        }
+        return str.toString();
+    }
 
 
 

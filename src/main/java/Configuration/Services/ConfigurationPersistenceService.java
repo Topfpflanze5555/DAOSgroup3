@@ -13,16 +13,15 @@ public class ConfigurationPersistenceService
 
     private ConfigurationPersistenceService()
     {
-        //standardConfig
-        HashMap<Configuration.MODELS, Configuration.SAVEDTYPE> standardConfig = new HashMap<>();
-        standardConfig.put(Configuration.MODELS.Leistung, Configuration.SAVEDTYPE.XML);
-        standardConfig.put(Configuration.MODELS.Patient, Configuration.SAVEDTYPE.XML);
-        standardConfig.put(Configuration.MODELS.Pflegekraft, Configuration.SAVEDTYPE.XML);
-        configuration = new Configuration(standardConfig);
-        //
+
         try {
             if (file.createNewFile()) {
+                configuration = standardConfig();
                 writeFile(configuration);
+            }
+            else
+            {
+                configuration = readFile();
             }
         }
         catch (IOException e)
@@ -32,7 +31,7 @@ public class ConfigurationPersistenceService
 
 
 
-        //configuration = readFile();
+
     }
     public static ConfigurationPersistenceService getInstance()
     {
@@ -91,5 +90,13 @@ public class ConfigurationPersistenceService
         catch (IOException e) {
             throw new ConfigurationException(e.getMessage());
         }
+    }
+    private Configuration standardConfig()
+    {
+        HashMap<Configuration.MODELS, Configuration.SAVEDTYPE> standardConfig = new HashMap<>();
+        standardConfig.put(Configuration.MODELS.Leistung, Configuration.SAVEDTYPE.XML);
+        standardConfig.put(Configuration.MODELS.Patient, Configuration.SAVEDTYPE.XML);
+        standardConfig.put(Configuration.MODELS.Pflegekraft, Configuration.SAVEDTYPE.XML);
+        return new Configuration(standardConfig);
     }
 }

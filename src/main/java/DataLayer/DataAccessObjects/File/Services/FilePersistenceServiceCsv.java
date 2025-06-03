@@ -3,19 +3,21 @@ package DataLayer.DataAccessObjects.File.Services;
 import DataLayer.Exceptions.DAOException;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,13 +32,18 @@ public class FilePersistenceServiceCsv<T> implements IFIlePersistenceService<T> 
 
   private String[] getCsvColumnNames(Class<T> classType)
   {
-    try
+    List<String> columnList = new ArrayList<>();
+    // alle Attribute durchlaufen
+    for ( Field field : classType.getDeclaredFields())
     {
-      BufferedReader br = new BufferedReader(new FileReader(readFile(classType, Path filePath)));
-
+      if (field.isAnnotationPresent(CsvBindByName.class))
+      {
+        CsvBindByName annotation = field.getAnnotation(CsvBindByName.class);
+        columnList.add(annotation.column());
+      }
     }
 
-    return
+    return columnList.toArray(new String[0]);
   }
 
   @Override

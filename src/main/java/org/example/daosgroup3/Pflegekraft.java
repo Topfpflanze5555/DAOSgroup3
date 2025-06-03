@@ -38,4 +38,14 @@ public class Pflegekraft
   {
     this.nachname = nachname;
   }
+
+  public String getTelefon()
+  {
+    return telefon;
+  }
+
+  public void setTelefon( String telefon)
+  {
+    this.telefon = telefon;
+  }
 }

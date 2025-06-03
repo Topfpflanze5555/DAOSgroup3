@@ -1,7 +1,20 @@
 package DataLayer.DataAccessObjects.File.Services;
 
 import DataLayer.Exceptions.DAOException;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -12,19 +25,63 @@ public class FilePersistenceServiceCsv<T> implements IFIlePersistenceService<T> 
 
   public FilePersistenceServiceCsv(char separator)
   {
+    this.separator = separator;
+  }
 
+  private String[] getCsvColumnNames(Class<T> classType)
+  {
+    try
+    {
+      BufferedReader br = new BufferedReader(new FileReader(readFile(classType, Path filePath)));
+
+    }
+
+    return
   }
 
   @Override
   public List<T> readFile( Class<T> classType,Path filePath) throws DAOException
   {
-    return List.of();
+    try (Reader reader = new FileReader(filePath.toFile()))
+    {
+      CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
+        .withType(classType)
+        .withIgnoreLeadingWhiteSpace(true)
+        .withSeparator(separator)
+        .build();
+
+      return csvToBean.parse();
+    }
+    catch (IOException e)
+    {
+      throw new DAOException(e.getMessage());
+    }
   }
 
   @Override
-  public void writeFile(Class<T> classType,List<T> listToPersist, final Path filePath)
-    throws DAOException
+  public void writeFile(Class<T> classType,List<T> listToPersist, final Path filePath) throws DAOException
   {
+    ColumnPositionMappingStrategy<T> mappingStrategy = new ColumnPositionMappingStrategy<>();
+    mappingStrategy.setType(classType);
+    String[] columns = getCsvColumnNames(classType);
+    mappingStrategy.setColumnMapping(columns);
+
+    String header = String.join(String.valueOf(separator), columns) + "\n";
+
+    try (Writer writer = new FileWriter(filePath.toFile()))
+    {
+      writer.write(header);
+      StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
+        .withSeparator(separator)
+        .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+        .withMappingStrategy(mappingStrategy)
+        .build();
+      beanToCsv.write(listToPersist);
+    } catch (Exception e)
+    {
+      throw new DAOException(e.getMessage());
+    }
+
 
   }
 }

@@ -1,4 +1,13 @@
 package DataLayer.DataAccessObjects.db.DAOS.services;
 
-public class ConnectionManagerSqlite {
+import java.sql.*;
+import DataLayer.Exceptions.DAOException;
+public class ConnectionManagerSqlite extends ConnectionManager{
+	
+		
+	
+	
+	
+
+	
 }

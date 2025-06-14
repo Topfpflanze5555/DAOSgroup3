@@ -1,37 +1,75 @@
 package DataLayer.DataAccessObjects.db.DAOS;
 
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import DataLayer.DataAccessObjects.IDao;
+import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
 
-public class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
+public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
+	
+	private ConnectionManager connectionManager;
+	
     @Override
-    public T create(Object o) {
+    public T create(T objectToInsert) 
+    {
         return null;
     }
 
     @Override
-    public T create() {
+    public T create() 
+    {
         return null;
     }
 
     @Override
-    public T read(ID Id) {
+    public T read(ID Id) 
+    {
         return null;
     }
 
     @Override
-    public List read() {
+    public List read() 
+    {
         return List.of();
     }
 
     @Override
-    public void delete(ID Id) {
+	public void update(T objectToUpdate) 
+    {
+	
+	}
+
+	@Override
+    public void delete(ID Id) 
+	{
 
     }
-
-    @Override
-    public void update(Object o) {
-
-    }
+	protected abstract String getTableName();
+	
+	protected abstract String getPrimaryKeyColumn();
+	
+	protected abstract String getSqlCreateTableIfNotExists();
+	
+	protected abstract String getSqlInsert();
+	
+	protected abstract String getSqlUpdate();
+	
+	protected abstract T mapResultSetToObject(ResultSet resultSet);
+	
+	protected abstract void setInsertStatement(PreparedStatement preparedStatement, T objectToInsert);
+	
+	protected abstract void setGeneratedIdToObject(PreparedStatement preparedStatement, T objectToInsert);
+	
+	protected abstract void setUpdateStatement(PreparedStatement preparedStatement, T objectToUpdate);
+	
+	private void createTableIfNotExists()
+	{
+		
+	}
+	
+	
+	
+	
+	
 }

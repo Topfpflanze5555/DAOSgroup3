@@ -5,34 +5,44 @@ import Models.Leistung;
 import java.util.List;
 import java.util.Optional;
 
-public class LeistungDaoSqlite implements IDao<Leistung> {
-    @Override
-    public Leistung create(Leistung leistung) {
-        return null;
-    }
+import DataLayer.DataAccessObjects.IDao;
 
-    @Override
-    public Leistung create() {
-        return null;
-    }
+public class LeistungDaoSqlite implements IDao<Leistung, String> {
 
-    @Override
-    public Leistung read(int Id) {
-        return null;
-    }
+	@Override
+	public Leistung create() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<Leistung> read() {
-        return List.of();
-    }
+	@Override
+	public Leistung create(Leistung t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public void update(Leistung leistung) {
+	@Override
+	public Leistung read(String Id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    }
+	@Override
+	public List<Leistung> read() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public void delete(int Id) {
+	@Override
+	public void update(Leistung t) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    }
+	@Override
+	public void delete(String Id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,13 +1,13 @@
-package DataLayer.DataAccessObjects.db.DAOS;
+package DataLayer.DataAccessObjects;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IDao<T> {
+public interface IDao<T, ID> {
     T create();
     T create(T t);
-    T read(int Id);
+    T read(ID Id);
     List<T> read();
     void update(T t);
-    void delete(int Id);
+    void delete(ID Id);
 }

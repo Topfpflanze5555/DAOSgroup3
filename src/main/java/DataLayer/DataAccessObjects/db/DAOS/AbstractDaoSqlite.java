@@ -2,20 +2,21 @@ package DataLayer.DataAccessObjects.db.DAOS;
 
 import java.util.List;
 import java.util.Optional;
+import DataLayer.DataAccessObjects.IDao;
 
-public class AbstractDaoSqlite implements IDao {
+public class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
     @Override
-    public Object create(Object o) {
+    public T create(Object o) {
         return null;
     }
 
     @Override
-    public Object create() {
+    public T create() {
         return null;
     }
 
     @Override
-    public Object read(int Id) {
+    public T read(ID Id) {
         return null;
     }
 
@@ -25,7 +26,7 @@ public class AbstractDaoSqlite implements IDao {
     }
 
     @Override
-    public void delete(int Id) {
+    public void delete(ID Id) {
 
     }
 

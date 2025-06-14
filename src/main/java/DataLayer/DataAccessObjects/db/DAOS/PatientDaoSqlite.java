@@ -5,34 +5,44 @@ import Models.Patient;
 import java.util.List;
 import java.util.Optional;
 
-public class PatientDaoSqlite implements IDao<Patient> {
-    @Override
-    public Patient create(Patient patient) {
-        return null;
-    }
+import DataLayer.DataAccessObjects.IDao;
 
-    @Override
-    public Patient create() {
-        return null;
-    }
+public class PatientDaoSqlite implements IDao<Patient, Long> {
 
-    @Override
-    public Patient read(int Id) {
-        return null;
-    }
+	@Override
+	public Patient create() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<Patient> read() {
-        return List.of();
-    }
+	@Override
+	public Patient create(Patient t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public void update(Patient patient) {
+	@Override
+	public Patient read(Long Id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    }
+	@Override
+	public List<Patient> read() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public void delete(int Id) {
+	@Override
+	public void update(Patient t) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    }
+	@Override
+	public void delete(Long Id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

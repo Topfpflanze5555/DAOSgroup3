@@ -1,6 +1,4 @@
 package DataLayer.DataAccessObjects.File.DAOS;
-import DataLayer.DataAccessObjects.File.Services.*;
-
 import java.nio.file.*;
 import java.util.*;
 
@@ -20,10 +18,8 @@ public abstract class AbstractDaoFile<T, ID>
 	}
 	public T create(T objectToInsert)
 	{
-		if (loadObjectList().contains(objectToInsert))
-		{
-			throw new DataLayer.Exceptions.DAOException("Object couldn't be written or is listed already");
-		}
+		loadObjectList();
+		setIdToObjectToInsert(objectToInsert);
 		cachedObjectList.add(objectToInsert);
 		return objectToInsert;
 	}
@@ -37,19 +33,40 @@ public abstract class AbstractDaoFile<T, ID>
 			{
 				return object;
 			}
+			
 		}
 			
 		
-		throw new DataLayer.Exceptions.DAOException("Object couldn't be read or isn't listed");
+		throw new DataLayer.Exceptions.DAOException("Object isn't listed");
 		
 	}
+	
+	public List<T> read()
+	{
+		return loadObjectList();
+	}
+	
 	public void update(T objectToUpdate)
 	{
+		loadObjectList();
+		for (T object : cachedObjectList)
+		{
+			if (getIdFromObject(object).equals(getIdFromObject(objectToUpdate)))
+			{
+				cachedObjectList.add(objectToUpdate);
+				saveObjectList(cachedObjectList);
+				return;
+			}
+		}
+		
+		throw new DataLayer.Exceptions.DAOException("object does not exists in file");
 		
 	}
 	public void delete(ID id)
 	{
-		
+		cachedObjectList.remove(read(id));
+		saveObjectList(cachedObjectList);
+		return;
 	}
 	protected abstract ID getIdFromObject(T object);
 	
@@ -61,10 +78,12 @@ public abstract class AbstractDaoFile<T, ID>
 	}
 	private List<T> loadObjectList()
 	{
+		cachedObjectList = filePersistenceService.readFile(objectType, filePath);
 		return cachedObjectList;
 	}
 	private void saveObjectList(List<T> objectList)
 	{
+		filePersistenceService.writeFile(objectType, objectList, filePath);
 		
 	}
 		

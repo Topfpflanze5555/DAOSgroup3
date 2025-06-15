@@ -1,12 +1,12 @@
 package DataLayer.DataAccessObjects.File.DAOS;
 import java.nio.file.Path;
 
-import DataLayer.DataAccessObjects.File.Services.IFIlePersistenceService;
+import DataLayer.DataAccessObjects.File.Services.IFilePersistenceService;
 import Models.Patient;
 
 public class PatientDaoFile extends AbstractDaoFile<Patient, Long> {
 
-	PatientDaoFile(IFIlePersistenceService<Patient> filePersistenceService,  Path filePath) {
+	public PatientDaoFile(IFilePersistenceService<Patient> filePersistenceService,  Path filePath) {
 		super(filePersistenceService, Patient.class, filePath);
 		
 	}

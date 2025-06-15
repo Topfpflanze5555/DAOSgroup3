@@ -1,12 +1,12 @@
 package DataLayer.DataAccessObjects.File.DAOS;
 import java.nio.file.Path;
 
-import DataLayer.DataAccessObjects.File.Services.IFIlePersistenceService;
+import DataLayer.DataAccessObjects.File.Services.IFilePersistenceService;
 import Models.Pflegekraft;
 
 public class PflegekraftDaoFile extends AbstractDaoFile<Pflegekraft, Long> {
 
-	PflegekraftDaoFile(IFIlePersistenceService<Pflegekraft> filePersistenceService, Path filePath) {
+	public PflegekraftDaoFile(IFilePersistenceService<Pflegekraft> filePersistenceService, Path filePath) {
 		super(filePersistenceService, Pflegekraft.class, filePath);
 		// TODO Auto-generated constructor stub
 	}

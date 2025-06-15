@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FilePersistenceServiceXml<T> implements IFIlePersistenceService<T> {
+public class FilePersistenceServiceXml<T> implements IFilePersistenceService<T> {
 
   @Override
   public List<T> readFile(final Class<T> classType, final Path filePath) throws DAOException

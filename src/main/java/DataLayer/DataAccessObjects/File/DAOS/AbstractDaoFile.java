@@ -5,12 +5,12 @@ import java.util.*;
 public abstract class AbstractDaoFile<T, ID> 
 {
 	
-	private DataLayer.DataAccessObjects.File.Services.IFIlePersistenceService<T> filePersistenceService;
+	private DataLayer.DataAccessObjects.File.Services.IFilePersistenceService<T> filePersistenceService;
 	private Class<T> objectType;
 	private Path filePath;
 	protected List<T> cachedObjectList;
 	
-	AbstractDaoFile(DataLayer.DataAccessObjects.File.Services.IFIlePersistenceService<T> filePersistenceService, Class<T> objectType, Path filePath)
+	AbstractDaoFile(DataLayer.DataAccessObjects.File.Services.IFilePersistenceService<T> filePersistenceService, Class<T> objectType, Path filePath)
 	{
 		this.filePersistenceService = filePersistenceService;
 		this.objectType = objectType;

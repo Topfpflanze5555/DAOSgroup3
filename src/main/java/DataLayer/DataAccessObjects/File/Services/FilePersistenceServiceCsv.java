@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FilePersistenceServiceCsv<T> implements IFIlePersistenceService<T> {
+public class FilePersistenceServiceCsv<T> implements IFilePersistenceService<T> {
 
   private char separator;
 

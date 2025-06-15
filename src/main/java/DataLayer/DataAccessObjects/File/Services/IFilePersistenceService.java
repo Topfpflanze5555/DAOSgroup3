@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 
-public interface IFIlePersistenceService<T>
+public interface IFilePersistenceService<T>
 {
 
   public List<T> readFile(Class<T> classType, Path filePath) throws DAOException;

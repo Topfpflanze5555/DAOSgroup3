@@ -42,7 +42,7 @@ public class Configuration {
     public ArrayList<HashMap<String, String>> getConfiguration() {
         return configuration;
     }
-    public HashMap<String, String> getModel(MODELS model, ArrayList<HashMap<String, String>> configuration ) throws ConfigurationException 
+    public HashMap<String, String> getModel(MODELS model) throws ConfigurationException 
     {
     	for(HashMap<String, String> Hmodel : configuration)
     	{
@@ -64,6 +64,18 @@ public class Configuration {
     	configuration.add(modelHashMap);
     	
     	
+    }
+    public String getName(MODELS model)
+    {
+    	return getModel(model).get("Name");
+    }
+    public String getSavedType(MODELS model)
+    {
+    	return getModel(model).get("SaveType");
+    }
+    public String getURL(MODELS model)
+    {
+    	return getModel(model).get("URL");
     }
     
     private void removeModel(MODELS model)

@@ -29,18 +29,16 @@ public class DataLayerFactory {
 		//liesst die configuration aus und führt mit ausgelesenen parametern die createDao funktion auf
 		//für jeden datenTypen
 		{
-		HashMap<String, String> leistungConfig = configuration.getModel(MODELS.Leistung, configuration.getConfiguration());
-		SAVEDTYPE leistungSType = SAVEDTYPE.valueOf(leistungConfig.get(Configuration.MODELPARAMS.SaveType.name()));
+		SAVEDTYPE leistungSType = SAVEDTYPE.valueOf(configuration.getSavedType(MODELS.Leistung));
 		output.setDaoLeistung(createDao(MODELS.Leistung, leistungSType));
 		}
 		{
-		HashMap<String, String> PatientConfig = configuration.getModel(MODELS.Patient, configuration.getConfiguration());
-		SAVEDTYPE patientSType = SAVEDTYPE.valueOf(PatientConfig.get(Configuration.MODELPARAMS.SaveType.name()));
+		
+		SAVEDTYPE patientSType = SAVEDTYPE.valueOf(configuration.getSavedType(MODELS.Patient));
 		output.setDaoPatient(createDao(MODELS.Patient, patientSType));
 		}
 		{
-		HashMap<String, String> PflegekraftConfig = configuration.getModel(MODELS.Pflegekraft, configuration.getConfiguration());
-		SAVEDTYPE pflegekraftSType = SAVEDTYPE.valueOf(PflegekraftConfig.get(Configuration.MODELPARAMS.SaveType.name()));
+		SAVEDTYPE pflegekraftSType = SAVEDTYPE.valueOf(configuration.getSavedType(MODELS.Pflegekraft));
 		output.setDaoLeistung(createDao(MODELS.Pflegekraft, pflegekraftSType));
 		}
 		return (IDataLayer) output;
@@ -96,19 +94,19 @@ public class DataLayerFactory {
 		case"Leistung":
 		{
 			//setzt je nach File Type einen FilePersistenceService und den Pfad/URL aus der Config ein daoObject wird schlussendlich zurückgegeben
-			LeistungDaoFile service = new LeistungDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getModel(modelType, configuration.getConfiguration()).get(Configuration.MODELPARAMS.URL.name())));
+			LeistungDaoFile service = new LeistungDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getURL(modelType)));
 			return  (IDao) service;
 		}
 		case"Patient":
 		{
 			//setzt je nach File Type einen FilePersistenceService und den Pfad/URL aus der Config ein daoObject wird schlussendlich zurückgegeben
-			PatientDaoFile service = new PatientDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getModel(modelType, configuration.getConfiguration()).get(Configuration.MODELPARAMS.URL.name())));
+			PatientDaoFile service = new PatientDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getURL(modelType)));
 			return (IDao) service;
 		}
 		case"Pflegekraft":
 		{
 			//setzt je nach File Type einen FilePersistenceService und den Pfad/URL aus der Config ein daoObject wird schlussendlich zurückgegeben
-			PflegekraftDaoFile service = new PflegekraftDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getModel(modelType, configuration.getConfiguration()).get(Configuration.MODELPARAMS.URL.name())));
+			PflegekraftDaoFile service = new PflegekraftDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getURL(modelType)));
 
 			return (IDao) service;
 		}

@@ -1,8 +1,11 @@
 package Configuration.Services;
 import Configuration.Exceptions.ConfigurationException;
 import Configuration.Models.Configuration;
+import Configuration.Models.Configuration.MODELS;
+
 import org.json.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ConfigurationPersistenceService
@@ -53,11 +56,18 @@ public class ConfigurationPersistenceService
             FileReader fr = new FileReader(file);
             JSONTokener jst = new JSONTokener(fr);
             JSONObject json = new JSONObject(jst);
-            HashMap<Configuration.MODELS, Configuration.SAVEDTYPE> output = new HashMap<>();
-            for (String key : json.toMap().keySet())
+            ArrayList<HashMap<String, String>> output = new ArrayList<>();
+            
+            JSONArray jarr = json.getJSONArray("Model");
+            for (int i =0; i<jarr.length(); i++)
             {
-                Configuration.MODELS confKey = Configuration.MODELS.valueOf(key);
-                output.put(confKey, Configuration.SAVEDTYPE.valueOf(json.getString(key)));
+            	JSONObject jobj = jarr.getJSONObject(i);
+            	HashMap<String, String> outHashMap = new HashMap<>();
+            	for (String key : jobj.keySet())
+            	{
+            		outHashMap.put(key, jobj.getString(key));
+            	}
+            	output.add(outHashMap);
             }
             fr.close();
 
@@ -78,9 +88,14 @@ public class ConfigurationPersistenceService
 
 
             JSONObject json = new JSONObject();
-            for (Configuration.MODELS confKey : configuration.getConfiguration().keySet())
+            JSONArray jarr = json.getJSONArray("Model");
+            for (MODELS model : MODELS.values())
             {
-                json.put(confKey.toString(), configuration.getConfiguration().get(confKey).toString());
+            	HashMap<String, String> modelMap = new HashMap<>(); 
+            	modelMap.put("Name", model.name());
+            	modelMap.put("SaveType", configuration.getModel(model, configuration.getConfiguration()).get("SaveType"));
+            	modelMap.put("URL", configuration.getModel(model, configuration.getConfiguration()).get("URL"));
+            	jarr.put(modelMap);
             }
             FileWriter fw = new FileWriter(file);
             json.write(fw);
@@ -93,10 +108,7 @@ public class ConfigurationPersistenceService
     }
     private Configuration standardConfig()
     {
-        HashMap<Configuration.MODELS, Configuration.SAVEDTYPE> standardConfig = new HashMap<>();
-        standardConfig.put(Configuration.MODELS.Leistung, Configuration.SAVEDTYPE.XML);
-        standardConfig.put(Configuration.MODELS.Patient, Configuration.SAVEDTYPE.XML);
-        standardConfig.put(Configuration.MODELS.Pflegekraft, Configuration.SAVEDTYPE.XML);
-        return new Configuration(standardConfig);
+        
+        return new Configuration(Configuration.SAVEDTYPE.XML, "./Temp.xml", Configuration.SAVEDTYPE.XML, "./Temp.xml", Configuration.SAVEDTYPE.XML, "./Temp.xml");
     }
 }

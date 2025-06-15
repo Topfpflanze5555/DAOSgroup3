@@ -18,7 +18,12 @@ public class DataLayerFactory {
 	private Configuration configuration;
 	private String location;
 	
-	public IDataLayer createDataLayer(Configuration configuration)
+	public DataLayerFactory(Configuration configuration)
+	{
+		this.configuration = configuration;
+	}
+	
+	public IDataLayer createDataLayer()
 	{
 		DataLayer output = new DataLayer();
 		//liesst die configuration aus und führt mit ausgelesenen parametern die createDao funktion auf

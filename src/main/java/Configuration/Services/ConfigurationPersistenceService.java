@@ -93,8 +93,8 @@ public class ConfigurationPersistenceService
             {
             	HashMap<String, String> modelMap = new HashMap<>(); 
             	modelMap.put("Name", model.name());
-            	modelMap.put("SaveType", configuration.getModel(model, configuration.getConfiguration()).get("SaveType"));
-            	modelMap.put("URL", configuration.getModel(model, configuration.getConfiguration()).get("URL"));
+            	modelMap.put("SaveType", configuration.getSavedType(model));
+            	modelMap.put("URL", configuration.getURL(model));
             	jarr.put(modelMap);
             }
             FileWriter fw = new FileWriter(file);

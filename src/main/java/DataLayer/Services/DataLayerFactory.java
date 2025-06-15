@@ -7,17 +7,12 @@ import DataLayer.DataAccessObjects.File.Services.*;
 import DataLayer.DataAccessObjects.db.DAOS.*;
 import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
 import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManagerSqlite;
-import Models.*;
 import Configuration.Models.Configuration.MODELS;
 import DataLayer.DataAccessObjects.File.DAOS.*;
 import Configuration.Exceptions.ConfigurationException;
 
 
 import java.nio.file.*;
-import java.sql.*;
-import java.util.HashMap;
-
-import javax.sql.PooledConnection;
 
 public class DataLayerFactory {
 	private Configuration configuration;

@@ -31,7 +31,7 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
     }
 
     @Override
-    public T read(ID Id) 
+    public T read(ID id) 
     {
         return null;
     }
@@ -45,13 +45,23 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
     @Override
 	public void update(T objectToUpdate) 
     {
-	
+        String stmt = getSqlUpdate();
+        Connection conn = null;
+
+        try {
+            conn = connectionManager.getNewConnection();
+            conn.createStatement().execute(stmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        
 	}
 
 	@Override
-    public void delete(ID Id) 
+    public void delete(ID id) 
 	{
-
+		
     }
 	protected abstract String getTableName();
 	

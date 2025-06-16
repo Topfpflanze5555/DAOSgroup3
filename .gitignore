@@ -42,3 +42,5 @@ build/
 /src/main/java/TestClasses
 ### configuration ###
 /configuration.json
+
+/src/patients.db

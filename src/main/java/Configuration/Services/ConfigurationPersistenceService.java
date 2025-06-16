@@ -88,7 +88,8 @@ public class ConfigurationPersistenceService
 
 
             JSONObject json = new JSONObject();
-            JSONArray jarr = json.getJSONArray("Model");
+            JSONArray jarr = new JSONArray();
+
             for (MODELS model : MODELS.values())
             {
             	HashMap<String, String> modelMap = new HashMap<>(); 
@@ -97,6 +98,7 @@ public class ConfigurationPersistenceService
             	modelMap.put("URL", configuration.getURL(model));
             	jarr.put(modelMap);
             }
+            json.put("Model", jarr);
             FileWriter fw = new FileWriter(file);
             json.write(fw);
             fw.close();

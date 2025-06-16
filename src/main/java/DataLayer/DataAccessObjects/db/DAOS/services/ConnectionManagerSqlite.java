@@ -9,6 +9,12 @@ public class ConnectionManagerSqlite extends ConnectionManager {
 
     @Override
     public Connection getNewConnection() throws SQLException {
+
+        if(this.getExistingConnection() == null){
+            Connection conn = DriverManager.getConnection(getConnectionString());
+            _setExistingConnection(conn);
+        }
+
         return null;
     }
 }

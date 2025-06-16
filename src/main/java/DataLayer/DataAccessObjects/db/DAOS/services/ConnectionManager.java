@@ -1,5 +1,4 @@
 package DataLayer.DataAccessObjects.db.DAOS.services;
-import DataLayer.Exceptions.PrivateAccessException;
 
 import java.sql.*;
 

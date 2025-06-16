@@ -9,6 +9,7 @@ target/
 .idea/compiler.xml
 .idea/libraries/
 .idea/workspace.xml
+.idea/*
 *.iws
 *.iml
 *.ipr
@@ -37,3 +38,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+### Test Classes ###
+/src/main/java/TestClasses
+### configuration ###
+/configuration.json

@@ -4,7 +4,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLite {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
         String url = "jdbc:sqlite:patients.db";
 
         try (var conn = DriverManager.getConnection(url)) {

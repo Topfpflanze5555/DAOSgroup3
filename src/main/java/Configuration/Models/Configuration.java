@@ -80,13 +80,28 @@ public class Configuration {
     
     private void removeModel(MODELS model)
     {
-    	for(int i = 0; i>configuration.size();i++)
+    	for(int i = 0; i<configuration.size();i++)
     	{
     		if (configuration.get(i).get("Name").equals(model.name()))
     		{
     			configuration.remove(i);
     		}
     	}
+    }
+    @Override
+    public String toString()
+    {
+        StringBuilder str = new StringBuilder();
+        for (MODELS m : MODELS.values())
+        {
+            str.append(getName(m));
+            str.append("\n");
+            str.append(getSavedType(m));
+            str.append("\n");
+            str.append(getURL(m));
+            str.append("\n");
+        }
+        return str.toString();
     }
     
     

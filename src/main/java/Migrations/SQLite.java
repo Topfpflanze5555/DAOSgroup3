@@ -23,7 +23,7 @@ public class SQLite {
 
     private static void migrate(Connection conn) throws SQLException {
         String patienten = "CREATE TABLE IF NOT EXISTS patienten (\n" +
-                "    id INTEGER PRIMARY KEY,\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    vorname TEXT NOT NULL,\n" +
                 "    nachname TEXT NOT NULL,\n" +
                 "    geburtsdatum REAL NOT NULL,\n" +
@@ -36,7 +36,7 @@ public class SQLite {
 
 
         String pflegekraft = "CREATE TABLE IF NOT EXISTS pflegekraft (\n" +
-                "    id INTEGER PRIMARY KEY,\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    vorname TEXT NOT NULL,\n" +
                 "    nachname TEXT NOT NULL,\n" +
                 "    geburtsdatum REAL NOT NULL,\n" +

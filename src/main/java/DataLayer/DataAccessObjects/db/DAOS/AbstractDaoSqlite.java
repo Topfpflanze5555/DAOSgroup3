@@ -9,17 +9,25 @@ import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
 public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	
 	private ConnectionManager connectionManager;
+
+    AbstractDaoSqlite(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 	
     @Override
     public T create(T objectToInsert) 
     {
-        return null;
-    }
+        String stmt = getSqlInsert();
+        Connection conn = null;
 
-    @Override
-    public T create() 
-    {
-        return null;
+        try {
+            conn = connectionManager.getNewConnection();
+            conn.createStatement().execute(stmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return objectToInsert;
     }
 
     @Override

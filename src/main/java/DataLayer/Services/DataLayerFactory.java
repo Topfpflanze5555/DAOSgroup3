@@ -141,7 +141,7 @@ public class DataLayerFactory {
 		
 		switch(DataSource.name())
 		{
-		case"SQLITE":
+			case"SQLITE":
 		{
 			return new ConnectionManagerSqlite();
 		}

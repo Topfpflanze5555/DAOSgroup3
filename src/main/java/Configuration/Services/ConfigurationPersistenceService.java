@@ -93,9 +93,9 @@ public class ConfigurationPersistenceService
             for (MODELS model : MODELS.values())
             {
             	HashMap<String, String> modelMap = new HashMap<>(); 
-            	modelMap.put("Name", model.name());
-            	modelMap.put("SaveType", configuration.getSavedType(model));
-            	modelMap.put("URL", configuration.getURL(model));
+            	modelMap.put(Configuration.MODELPARAMS.Name.name(), model.name());
+            	modelMap.put(Configuration.MODELPARAMS.SaveType.name(), configuration.getSavedType(model));
+            	modelMap.put(Configuration.MODELPARAMS.URL.name(), configuration.getURL(model));
             	jarr.put(modelMap);
             }
             json.put("Model", jarr);

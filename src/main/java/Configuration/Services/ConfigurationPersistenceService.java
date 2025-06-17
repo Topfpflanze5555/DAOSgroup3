@@ -47,7 +47,7 @@ public class ConfigurationPersistenceService
 
     public Configuration getConfiguration()
     {
-        configuration = readFile();
+        
         return configuration;
     }
     private Configuration readFile() throws ConfigurationException

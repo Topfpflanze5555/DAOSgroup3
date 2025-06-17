@@ -61,7 +61,27 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	@Override
     public void delete(ID id) 
 	{
-		
+		String stmt = "DELETE FROM ? WHERE ?=?";
+        Connection conn = null;
+
+        try {
+            conn = connectionManager.getNewConnection();
+            java.sql.PreparedStatement pStmt = conn.prepareStatement(stmt);
+
+            int paramIndex = 1;
+            pStmt.setString(paramIndex, getTableName());
+            paramIndex++;
+
+            pStmt.setString(paramIndex, getPrimaryKeyColumn());
+            paramIndex++;
+
+            pStmt.setInt(paramIndex, (int)id);
+
+            pStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 	protected abstract String getTableName();
 	

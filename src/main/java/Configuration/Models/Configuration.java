@@ -21,17 +21,17 @@ public class Configuration {
         HashMap<String, String> pflegekraftHashMap = new HashMap<>();
         HashMap<String, String> patientHashMap = new HashMap<>();
         
-        leistungHashMap.put("Name", MODELS.Leistung.name());
-        leistungHashMap.put("SaveType", saveTypeLeistung.name());
-        leistungHashMap.put("URL", urlLeistung);
+        leistungHashMap.put(Configuration.MODELPARAMS.Name.name(), MODELS.Leistung.name());
+        leistungHashMap.put(Configuration.MODELPARAMS.SaveType.name(), saveTypeLeistung.name());
+        leistungHashMap.put(Configuration.MODELPARAMS.URL.name(), urlLeistung);
         
-        pflegekraftHashMap.put("Name", MODELS.Pflegekraft.name());
-        pflegekraftHashMap.put("SaveType", saveTypePflegekraft.name());
-        pflegekraftHashMap.put("URL", urlPflegekraft);
+        pflegekraftHashMap.put(Configuration.MODELPARAMS.Name.name(), MODELS.Pflegekraft.name());
+        pflegekraftHashMap.put(Configuration.MODELPARAMS.SaveType.name(), saveTypePflegekraft.name());
+        pflegekraftHashMap.put(Configuration.MODELPARAMS.URL.name(), urlPflegekraft);
         
-        patientHashMap.put("Name", MODELS.Patient.name());
-        patientHashMap.put("SaveType", saveTypePatient.name());
-        patientHashMap.put("URL", urlPatient);
+        patientHashMap.put(Configuration.MODELPARAMS.Name.name(), MODELS.Patient.name());
+        patientHashMap.put(Configuration.MODELPARAMS.SaveType.name(), saveTypePatient.name());
+        patientHashMap.put(Configuration.MODELPARAMS.URL.name(), urlPatient);
         
         configuration.add(leistungHashMap);
         configuration.add(pflegekraftHashMap);
@@ -46,7 +46,7 @@ public class Configuration {
     {
     	for(HashMap<String, String> Hmodel : configuration)
     	{
-    		if (Hmodel.get("Name").equals(model.name()))
+    		if (Hmodel.get(Configuration.MODELPARAMS.Name.name()).equals(model.name()))
     		{
     			return Hmodel;
     		}
@@ -57,9 +57,9 @@ public class Configuration {
     {
     	HashMap<String,String> modelHashMap = new HashMap<>();
     	
-    	modelHashMap.put("Name", model.name());
-    	modelHashMap.put("SaveType", savedType.name());
-    	modelHashMap.put("URL", url);
+    	modelHashMap.put(Configuration.MODELPARAMS.Name.name(), model.name());
+    	modelHashMap.put(Configuration.MODELPARAMS.SaveType.name(), savedType.name());
+    	modelHashMap.put(Configuration.MODELPARAMS.URL.name(), url);
     	removeModel(model);
     	configuration.add(modelHashMap);
     	
@@ -67,22 +67,22 @@ public class Configuration {
     }
     public String getName(MODELS model)
     {
-    	return getModel(model).get("Name");
+    	return getModel(model).get(Configuration.MODELPARAMS.Name.name());
     }
     public String getSavedType(MODELS model)
     {
-    	return getModel(model).get("SaveType");
+    	return getModel(model).get(Configuration.MODELPARAMS.SaveType.name());
     }
     public String getURL(MODELS model)
     {
-    	return getModel(model).get("URL");
+    	return getModel(model).get(Configuration.MODELPARAMS.URL.name());
     }
     
     private void removeModel(MODELS model)
     {
     	for(int i = 0; i<configuration.size();i++)
     	{
-    		if (configuration.get(i).get("Name").equals(model.name()))
+    		if (configuration.get(i).get(Configuration.MODELPARAMS.Name.name()).equals(model.name()))
     		{
     			configuration.remove(i);
     		}

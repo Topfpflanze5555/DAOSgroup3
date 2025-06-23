@@ -5,10 +5,8 @@ import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManagerSqlite;
 import DataLayer.DataAccessObjects.db.DAOS.services.SQLiteFormatConverter;
 import Models.Patient;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +16,7 @@ import DataLayer.DataAccessObjects.IDao;
 public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implements IDao<Patient, Integer> {
 
 	private PreparedStatement insertStatement;
+	private PreparedStatement updateStatement;
 
 	@Override
 	public Patient create(Patient t) {
@@ -98,12 +97,6 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 		return null;
 	}
 
-	@Override
-	public void update(Patient t) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void delete(Long Id) {
 		// TODO Auto-generated method stub
 		
@@ -126,23 +119,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected void setInsertStatement(PreparedStatement preparedStatement, Patient objectToInsert) {
-		String vorname = objectToInsert.getVorname();
-		String nachname = objectToInsert.getNachname();
-		int pflegegrad = objectToInsert.getPflegegrad();
-		String zimmer = objectToInsert.getZimmer();
-		int vermoegen = (int)objectToInsert.getVermoegen()*100;
-
-		try {
-			preparedStatement.setString(1, vorname);
-			preparedStatement.setString(2, nachname);
-			preparedStatement.setInt(3, pflegegrad);
-			preparedStatement.setString(4, zimmer);
-			preparedStatement.setInt(5, vermoegen);
-
-			this.insertStatement = preparedStatement;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+		this.insertStatement = mapPreparedStatementParameters(objectToInsert, preparedStatement);
 	}
 
 	@Override
@@ -162,7 +139,29 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected String getSqlUpdate() {
-		return "";
+		return "UPDATE " + getTableName() + "SET (vorname = ?, nachname = ?, geburtsdatum = ?, pflegegrad = ?, zimmer = ?, vermoegen = ?) WHERE " + getPrimaryKeyColumn() + " = ?";
+	}
+
+	private PreparedStatement mapPreparedStatementParameters(Patient patient, PreparedStatement preparedStatement) {
+		String vorname = patient.getVorname();
+		String nachname = patient.getNachname();
+		LocalDate geburtsdatum = patient.getGeburtsdatum();
+		int pflegegrad = patient.getPflegegrad();
+		String zimmer = patient.getZimmer();
+		int vermoegen = (int)patient.getVermoegen()*100;
+
+		try {
+			preparedStatement.setString(1, vorname);
+			preparedStatement.setString(2, nachname);
+			preparedStatement.setDate(3, Date.valueOf(geburtsdatum));
+			preparedStatement.setInt(3, pflegegrad);
+			preparedStatement.setString(4, zimmer);
+			preparedStatement.setInt(5, vermoegen);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return preparedStatement;
 	}
 
 	@Override

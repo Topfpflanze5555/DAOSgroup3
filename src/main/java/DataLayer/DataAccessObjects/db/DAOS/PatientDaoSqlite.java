@@ -2,6 +2,7 @@ package DataLayer.DataAccessObjects.db.DAOS;
 
 import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
 import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManagerSqlite;
+import DataLayer.DataAccessObjects.db.DAOS.services.SQLiteFormatConverter;
 import Models.Patient;
 
 import java.sql.Connection;
@@ -64,17 +65,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 			ResultSet rs = pStmt.executeQuery();
 
-			Patient patient = new Patient();
-			while (rs.next()) {
-				patient.setId(rs.getInt(primaryKeyColumn));
-				patient.setVorname(rs.getString(primaryKeyColumn));
-				patient.setNachname(rs.getString(primaryKeyColumn));
-				patient.setPflegegrad(rs.getInt(primaryKeyColumn));
-				patient.setZimmer(rs.getString(primaryKeyColumn));
-				patient.setVermoegen(rs.getInt(primaryKeyColumn));
-			}
-
-			return patient;
+            return mapResultSetToObject(rs);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -145,7 +136,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected String getSqlInsert() {
-		return "";
+		return this.insertStatement.toString();
 	}
 
 	@Override
@@ -155,6 +146,19 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected Patient mapResultSetToObject(ResultSet resultSet) {
-		return null;
+		Patient patient = new Patient();
+
+		try {
+			patient.setId(resultSet.getInt(this.getPrimaryKeyColumn()));
+			patient.setVorname(resultSet.getString("vorname"));
+			patient.setNachname(resultSet.getString("nachname"));
+			patient.setPflegegrad(resultSet.getInt("pflegegrad"));
+			patient.setZimmer(resultSet.getString("zimmer"));
+			patient.setVermoegen(SQLiteFormatConverter.formatIntToDouble(resultSet.getInt("vermoegen")));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return patient;
 	}
 }

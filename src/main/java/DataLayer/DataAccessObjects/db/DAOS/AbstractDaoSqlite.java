@@ -48,12 +48,12 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 
             int paramIndex = 1;
             pStmt.setString(paramIndex, getTableName());
-            paramIndex++;
+            paramIndex++;//paramIndex = 2
 
             pStmt.setString(paramIndex, getPrimaryKeyColumn());
-            paramIndex++;
+            paramIndex++;//paramIndex = 3
 
-            pStmt.setInt(paramIndex, (int)id);
+            pStmt.setString(paramIndex, id.toString());
 
             pStmt.executeUpdate();
 

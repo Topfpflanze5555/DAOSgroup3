@@ -1,14 +1,10 @@
 package DataLayer.DataAccessObjects.db.DAOS;
 
-import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
-import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManagerSqlite;
 import DataLayer.DataAccessObjects.db.DAOS.services.SQLiteFormatConverter;
 import Models.Patient;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import DataLayer.DataAccessObjects.IDao;
 

@@ -1,12 +1,10 @@
 package DataLayer.DataAccessObjects.db.DAOS;
 
-import Models.Patient;
 import Models.Pflegekraft;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import DataLayer.DataAccessObjects.IDao;
 

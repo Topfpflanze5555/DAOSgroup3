@@ -33,7 +33,18 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
     @Override
 	public void update(T objectToUpdate) 
     {
-	
+        String stmt = "UPDATE FROM ? WHERE ?=?";
+        Connection conn = null;
+
+        try {
+            conn = connectionManager.getNewConnection();
+            java.sql.PreparedStatement pStmt = conn.prepareStatement(stmt);
+
+            setUpdateStatement(pStmt, objectToUpdate);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 	}
 
 	@Override
@@ -76,7 +87,12 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	protected abstract void setInsertStatement(PreparedStatement preparedStatement, T objectToInsert);
 	
 	protected abstract void setGeneratedIdToObject(PreparedStatement preparedStatement, T objectToInsert);
-	
+
+    /**
+     *
+     * @param preparedStatement index 1 = TableName index 2 = Primary Key column index 3 = data from object
+     * @param objectToUpdate object that is already inside the database
+     */
 	protected abstract void setUpdateStatement(PreparedStatement preparedStatement, T objectToUpdate);
 	
 	private void createTableIfNotExists()

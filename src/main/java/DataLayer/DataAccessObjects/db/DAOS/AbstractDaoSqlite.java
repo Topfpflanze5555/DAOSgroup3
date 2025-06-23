@@ -1,19 +1,34 @@
 package DataLayer.DataAccessObjects.db.DAOS;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import DataLayer.DataAccessObjects.IDao;
 import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
+import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManagerSqlite;
 
 public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	
 	private ConnectionManager connectionManager;
-	
+
     @Override
-    public T create(T objectToInsert) 
+    public T create(T t)
     {
-        return null;
+        ConnectionManager conMan = new ConnectionManagerSqlite();
+
+        try {
+            Connection connection = conMan.getNewConnection();
+            String stmt = getSqlInsert();
+            PreparedStatement pStmt = connection.prepareStatement(stmt);
+            setInsertStatement(pStmt, t);
+
+            pStmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return t;
     }
 
     
@@ -21,27 +36,53 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
     @Override
     public T read(ID Id) 
     {
-        return null;
+        ConnectionManager conMan = new ConnectionManagerSqlite();
+
+        try {
+            Connection conn = conMan.getNewConnection();
+            String stmt = getSqlReadId();
+            PreparedStatement pStmt = conn.prepareStatement(stmt);
+            pStmt.setString(1, Id.toString());
+            ResultSet rs = pStmt.executeQuery();
+
+            return mapResultSetToObject(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public List read() 
+    public List<T> read()
     {
-        return List.of();
+        List<T> list = new ArrayList<>();
+        ConnectionManager conMan = new ConnectionManagerSqlite();
+
+        try {
+            Connection conn = conMan.getNewConnection();
+            String stmt = getSqlReadAll();
+            ResultSet rs = conn.prepareStatement(stmt).executeQuery();
+            while(rs.next()) {
+                list.add(mapResultSetToObject(rs));
+            }
+
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
 	public void update(T objectToUpdate) 
     {
-        String stmt = "UPDATE FROM ? WHERE ?=?";
-        Connection conn = null;
+        String stmt = getSqlUpdate();
 
         try {
-            conn = connectionManager.getNewConnection();
+            Connection conn = connectionManager.getNewConnection();
             java.sql.PreparedStatement pStmt = conn.prepareStatement(stmt);
 
             setUpdateStatement(pStmt, objectToUpdate);
 
+            pStmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -50,28 +91,32 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	@Override
     public void delete(ID id)
 	{
-		String stmt = "DELETE FROM ? WHERE ?=?";
-        Connection conn = null;
+		String stmt = getSqlDelete();
 
         try {
-            conn = connectionManager.getNewConnection();
+            Connection conn = connectionManager.getNewConnection();
             java.sql.PreparedStatement pStmt = conn.prepareStatement(stmt);
 
-            int paramIndex = 1;
-            pStmt.setString(paramIndex, getTableName());
-            paramIndex++;//paramIndex = 2
-
-            pStmt.setString(paramIndex, getPrimaryKeyColumn());
-            paramIndex++;//paramIndex = 3
-
-            pStmt.setString(paramIndex, id.toString());
+            pStmt.setString(1, id.toString());
 
             pStmt.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public String getSqlReadId() {
+        return "SELECT * FROM " + getTableName() + " WHERE " + getPrimaryKeyColumn() + " = ?";
+    }
+
+    public String getSqlReadAll() {
+        return "SELECT * FROM " + getTableName();
+    }
+
+    public String getSqlDelete() {
+        return "DELETE FROM " + getTableName() + " WHERE " + getPrimaryKeyColumn() + " = ?";
+    }
+
 	protected abstract String getTableName();
 	
 	protected abstract String getPrimaryKeyColumn();
@@ -103,7 +148,7 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	protected abstract void setGeneratedIdToObject(PreparedStatement preparedStatement, T objectToInsert);
 
     /**
-     * defines specific UpdateStatement with an object and its type
+     * Inserts required variables into parameterized sql update statement
      * @param preparedStatement parameterized SQL statement with '?' as parameters
      *
      */

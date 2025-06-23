@@ -13,8 +13,9 @@ public class ConnectionManagerSqlite extends ConnectionManager {
         if(this.getExistingConnection() == null){
             Connection conn = DriverManager.getConnection(getConnectionString());
             _setExistingConnection(conn);
+            return conn;
         }
 
-        return null;
+        return getExistingConnection();
     }
 }

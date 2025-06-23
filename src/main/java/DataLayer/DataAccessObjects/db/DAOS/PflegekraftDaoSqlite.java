@@ -2,95 +2,99 @@ package DataLayer.DataAccessObjects.db.DAOS;
 
 import Models.Pflegekraft;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import DataLayer.DataAccessObjects.IDao;
 
-public class PflegekraftDaoSqlite extends AbstractDaoSqlite<Pflegekraft, Long> implements IDao<Pflegekraft, Long> {
+
+public class PflegekraftDaoSqlite extends AbstractDaoSqlite<Pflegekraft, Long> implements IDao<Pflegekraft, Long>
+{
 
 	@Override
-	protected String getTableName() {
-		return "pflegekraft";
+	protected String getTableName()
+	{
+		return "Pflegekraft";
 	}
 
 	@Override
-	protected String getPrimaryKeyColumn() {
+	protected String getPrimaryKeyColumn()
+	{
 		return "id";
 	}
 
 	@Override
-	protected String getSqlCreateTableIfNotExists() {
-		return "CREATE TABLE IF NOT EXISTS pflegekraft (\n" +
-				"    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-				"    vorname TEXT NOT NULL,\n" +
-				"    nachname TEXT NOT NULL,\n" +
-				"    telefon TEXT,\n" +
-				")";
+	protected String getSqlCreateTableIfNotExists()
+	{
+      return "CREATE TABLE IF NOT EXISTS pflegekraft (\n" +
+          "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+          "    vorname TEXT NOT NULL,\n" +
+          "    nachname TEXT NOT NULL,\n" +
+          "    geburtsdatum REAL NOT NULL,\n" +
+          "    pflegegrad INTEGER,\n" +
+          "    zimmer INTEGER,\n" +
+          "    vermoegen INTEGER\n" +
+          ")";
 	}
 
 	@Override
-	protected String getSqlInsert() {
-		return "INSERT INTO " + getTableName() + " (vorname, nachname, telefon) VALUES(?,?,?)";
+	protected String getSqlInsert()
+	{
+		return "INSERT INTO"
+			+ getTableName()
+			+
+			"(id, nachname, vorname, telefon)" +
+			" VALUES(?,?,?,?)";
 	}
 
 	@Override
-	protected String getSqlUpdate() {
-		return "UPDATE " + getTableName() + " SET vorname = ?, nachname = ?, telefon = ? WHERE id = ?";
+	protected String getSqlUpdate()
+	{
+		return "UPDATE " + getTableName() +
+			" SET nachname = ?, vorname = ?, telefon = ?" +
+			" WHERE id = ?";
 	}
 
 	@Override
-	protected void setUpdateStatement(PreparedStatement preparedStatement, Pflegekraft objectToUpdate) {
-		mapPreparedStatementParameters(objectToUpdate, preparedStatement);
-	}
-
-	@Override
-	protected void setInsertStatement(PreparedStatement preparedStatement, Pflegekraft objectToInsert) {
-		mapPreparedStatementParameters(objectToInsert, preparedStatement);
-	}
-
-	private void mapPreparedStatementParameters(Pflegekraft pflegekraft, PreparedStatement preparedStatement) {
-		String vorname = pflegekraft.getVorname();
-		String nachname = pflegekraft.getNachname();
-		String telefon = pflegekraft.getTelefon();
-
-		try {
-			preparedStatement.setString(1, vorname);
-			preparedStatement.setString(2, nachname);
-			preparedStatement.setString(3, telefon);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Override
-	protected Pflegekraft mapResultSetToObject(ResultSet resultSet) {
+	protected Pflegekraft mapResultSetToObject(ResultSet resultSet)
+	{
 		Pflegekraft pflegekraft = new Pflegekraft();
-
 		try {
-			String vorname = resultSet.getString("vorname");
-			String nachname = resultSet.getString("nachname");
-			String telefon = resultSet.getString("telefon");
-
-			pflegekraft.setId(resultSet.getInt(this.getPrimaryKeyColumn()));
-			pflegekraft.setVorname(vorname);
-			pflegekraft.setNachname(nachname);
-			pflegekraft.setTelefon(telefon);
-
-			return pflegekraft;
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			pflegekraft.setId(resultSet.getLong(getPrimaryKeyColumn()));
+			pflegekraft.setNachname(resultSet.getString("nachname"));
+			pflegekraft.setVorname(resultSet.getString("vorname"));
+			pflegekraft.setTelefon(resultSet.getString("telefon"));
 		}
+        catch (SQLException e)
+        {
+          throw new RuntimeException(e);
+        }
+		return pflegekraft;
+
+    }
+
+	@Override
+	protected void setInsertStatement(final PreparedStatement preparedStatement,
+									  final Pflegekraft objectToInsert)
+	{
+
+
 	}
 
 	@Override
-	protected void setGeneratedIdToObject(PreparedStatement preparedStatement, Pflegekraft objectToInsert) {
-		try {
-			objectToInsert.setId(preparedStatement.getGeneratedKeys().getInt(1));
-		}  catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+	protected void setGeneratedIdToObject(final PreparedStatement preparedStatement,
+										  final Pflegekraft objectToInsert)
+	{
+
 	}
 
+	@Override
+	protected void setUpdateStatement(final PreparedStatement preparedStatement,
+									  final Pflegekraft objectToUpdate)
+	{
+
+	}
 }

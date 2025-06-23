@@ -9,29 +9,17 @@ import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
 public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	
 	private ConnectionManager connectionManager;
-
-    AbstractDaoSqlite(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
 	
     @Override
     public T create(T objectToInsert) 
     {
-        String stmt = getSqlInsert();
-        Connection conn = null;
-
-        try {
-            conn = connectionManager.getNewConnection();
-            conn.createStatement().execute(stmt);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return objectToInsert;
+        return null;
     }
 
+    
+
     @Override
-    public T read(ID id) 
+    public T read(ID Id) 
     {
         return null;
     }
@@ -45,21 +33,11 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
     @Override
 	public void update(T objectToUpdate) 
     {
-        String stmt = getSqlUpdate();
-        Connection conn = null;
-
-        try {
-            conn = connectionManager.getNewConnection();
-            conn.createStatement().execute(stmt);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        
+	
 	}
 
 	@Override
-    public void delete(ID id) 
+    public void delete(ID id)
 	{
 		String stmt = "DELETE FROM ? WHERE ?=?";
         Connection conn = null;
@@ -103,7 +81,7 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	
 	private void createTableIfNotExists()
 	{
-		
+
 	}
 	
 	

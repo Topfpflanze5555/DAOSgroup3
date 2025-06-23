@@ -77,21 +77,35 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	protected abstract String getPrimaryKeyColumn();
 	
 	protected abstract String getSqlCreateTableIfNotExists();
-	
-	protected abstract String getSqlInsert();
-	
-	protected abstract String getSqlUpdate();
-	
-	protected abstract T mapResultSetToObject(ResultSet resultSet);
-	
-	protected abstract void setInsertStatement(PreparedStatement preparedStatement, T objectToInsert);
-	
-	protected abstract void setGeneratedIdToObject(PreparedStatement preparedStatement, T objectToInsert);
 
     /**
      *
-     * @param preparedStatement index 1 = TableName index 2 = Primary Key column index 3 = data from object
-     * @param objectToUpdate object that is already inside the database
+     * @return prebuild SQL String for inserting an object see setSqlInsert
+     */
+	protected abstract String getSqlInsert();
+
+    /**
+     *
+     * @return prebuild SQL String for updating an object see setSqlUpdate
+     */
+	protected abstract String getSqlUpdate();
+	
+	protected abstract T mapResultSetToObject(ResultSet resultSet);
+
+    /**
+     * defines specific InsertStatement with an object and its type
+     * @param preparedStatement parameterized SQL statement with '?' as parameters
+     *
+     */
+	protected abstract void setInsertStatement(PreparedStatement preparedStatement, T objectToInsert);
+
+
+	protected abstract void setGeneratedIdToObject(PreparedStatement preparedStatement, T objectToInsert);
+
+    /**
+     * defines specific UpdateStatement with an object and its type
+     * @param preparedStatement parameterized SQL statement with '?' as parameters
+     *
      */
 	protected abstract void setUpdateStatement(PreparedStatement preparedStatement, T objectToUpdate);
 	

@@ -26,12 +26,6 @@ public class Configuration {
 
     /**
      * constructor currently sets all Models with a save type and a URL
-     * @param saveTypeLeistung
-     * @param urlLeistung
-     * @param saveTypePflegekraft
-     * @param urlPflegekraft
-     * @param saveTypePatient
-     * @param urlPatient
      */
     public Configuration(SAVEDTYPE saveTypeLeistung, String urlLeistung,
     		SAVEDTYPE saveTypePflegekraft, String urlPflegekraft,

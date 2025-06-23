@@ -9,29 +9,17 @@ import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
 public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	
 	private ConnectionManager connectionManager;
-
-    AbstractDaoSqlite(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
 	
     @Override
     public T create(T objectToInsert) 
     {
-        String stmt = getSqlInsert();
-        Connection conn = null;
-
-        try {
-            conn = connectionManager.getNewConnection();
-            conn.createStatement().execute(stmt);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return objectToInsert;
+        return null;
     }
 
+    
+
     @Override
-    public T read(ID id) 
+    public T read(ID Id) 
     {
         return null;
     }
@@ -45,21 +33,11 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
     @Override
 	public void update(T objectToUpdate) 
     {
-        String stmt = getSqlUpdate();
-        Connection conn = null;
-
-        try {
-            conn = connectionManager.getNewConnection();
-            conn.createStatement().execute(stmt);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        
+	
 	}
 
 	@Override
-    public void delete(ID id) 
+    public void delete(ID id)
 	{
 		String stmt = "DELETE FROM ? WHERE ?=?";
         Connection conn = null;
@@ -70,12 +48,12 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 
             int paramIndex = 1;
             pStmt.setString(paramIndex, getTableName());
-            paramIndex++;
+            paramIndex++;//paramIndex = 2
 
             pStmt.setString(paramIndex, getPrimaryKeyColumn());
-            paramIndex++;
+            paramIndex++;//paramIndex = 3
 
-            pStmt.setInt(paramIndex, (int)id);
+            pStmt.setString(paramIndex, id.toString());
 
             pStmt.executeUpdate();
 
@@ -103,7 +81,7 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	
 	private void createTableIfNotExists()
 	{
-		
+
 	}
 	
 	

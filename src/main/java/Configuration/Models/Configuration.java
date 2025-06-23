@@ -4,15 +4,35 @@ import java.util.*;
 
 import Configuration.Exceptions.ConfigurationException;
 
+/**
+ * Model class for the configuration
+ */
 public class Configuration {
     public enum MODELS { Leistung, Patient, Pflegekraft}
     public enum SAVEDTYPE {XML, CSV, SQLITE}
     public enum MODELPARAMS {Name, SaveType, URL}
     private ArrayList<HashMap<String, String>> configuration = new ArrayList<>();
+
+    /**
+     * constructor
+     * @param configuration a configuration model as an ArrayList of HashMaps
+     *                      ArrayList has all Models as HashMap
+     *                      HashMap has the values Name, SavedType, URL
+     */
     public Configuration(ArrayList<HashMap<String, String>> configuration)
     {
         this.configuration = configuration;
     }
+
+    /**
+     * constructor currently sets all Models with a save type and a URL
+     * @param saveTypeLeistung
+     * @param urlLeistung
+     * @param saveTypePflegekraft
+     * @param urlPflegekraft
+     * @param saveTypePatient
+     * @param urlPatient
+     */
     public Configuration(SAVEDTYPE saveTypeLeistung, String urlLeistung,
     		SAVEDTYPE saveTypePflegekraft, String urlPflegekraft,
     		SAVEDTYPE saveTypePatient, String urlPatient)
@@ -39,6 +59,10 @@ public class Configuration {
         
     }
 
+    /**
+     *
+     * @return the Configuration as an ArrayList<HashMap<String, String>>
+     */
     public ArrayList<HashMap<String, String>> getConfiguration() {
         return configuration;
     }
@@ -53,6 +77,14 @@ public class Configuration {
     	}
     	throw new ConfigurationException("No Configuration for "+model.name());
     }
+
+    /**
+     * Set Configuration for model
+     * @param model the model class for which the configuration is made
+     * @param savedType the save type that is used to read/write the model data from and to a location
+     * @param url the place where the model data is stored (either Filepath or URL)
+     *
+     */
     public void setModel(MODELS model, SAVEDTYPE savedType, String url)
     {
     	HashMap<String,String> modelHashMap = new HashMap<>();
@@ -65,19 +97,41 @@ public class Configuration {
     	
     	
     }
+
+    /**
+     *
+     * @param model Model from which the Name is extracted
+     * @return Name from the model
+     */
     public String getName(MODELS model)
     {
     	return getModel(model).get(Configuration.MODELPARAMS.Name.name());
     }
+
+    /**
+     *
+     * @param model Model from which the SavedType is extracted
+     * @return SavedType from the model
+     */
     public String getSavedType(MODELS model)
     {
     	return getModel(model).get(Configuration.MODELPARAMS.SaveType.name());
     }
+
+    /**
+     *
+     * @param model Model from which the SavedType is extracted
+     * @return SavedType from the model
+     */
     public String getURL(MODELS model)
     {
     	return getModel(model).get(Configuration.MODELPARAMS.URL.name());
     }
-    
+
+    /**
+     *
+     * @param model model which gets removed from the configuration
+     */
     private void removeModel(MODELS model)
     {
     	for(int i = 0; i<configuration.size();i++)
@@ -88,6 +142,13 @@ public class Configuration {
     		}
     	}
     }
+
+    /**
+     *
+     * @return String in format "Name
+     * SaveType
+     * URL"
+     */
     @Override
     public String toString()
     {

@@ -8,12 +8,18 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Persistence service for the Configuration Model
+ */
 public class ConfigurationPersistenceService
 {
     private static ConfigurationPersistenceService instance;
     private static final File file = new File("configuration.json");
     private Configuration configuration;
 
+    /**
+     * constructor SingletonPattern
+     */
     private ConfigurationPersistenceService()
     {
 
@@ -36,6 +42,11 @@ public class ConfigurationPersistenceService
 
 
     }
+
+    /**
+     * Singleton Pattern
+     * @return Instance of this class
+     */
     public static ConfigurationPersistenceService getInstance()
     {
         if (instance == null)
@@ -45,11 +56,21 @@ public class ConfigurationPersistenceService
         return instance;
     }
 
+    /**
+     *
+     * @return configuration variable
+     */
     public Configuration getConfiguration()
     {
         
         return configuration;
     }
+
+    /**
+     *
+     * @return configuration Model that has been read
+     * @throws ConfigurationException when file does not exist or is not a json
+     */
     private Configuration readFile() throws ConfigurationException
     {
         try {
@@ -80,6 +101,12 @@ public class ConfigurationPersistenceService
         }
 
     }
+
+    /**
+     *
+     * @param configuration configuration Model to be written into file
+     * @throws ConfigurationException if the file can't be written
+     */
     private void writeFile(Configuration configuration) throws ConfigurationException
     {
         try {
@@ -108,6 +135,11 @@ public class ConfigurationPersistenceService
             throw new ConfigurationException(e.getMessage());
         }
     }
+
+    /**
+     *
+     * @return load standard configuration
+     */
     private Configuration standardConfig()
     {
         

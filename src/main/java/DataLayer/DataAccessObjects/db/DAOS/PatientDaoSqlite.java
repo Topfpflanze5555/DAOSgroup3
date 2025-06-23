@@ -73,9 +73,9 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 			preparedStatement.setString(1, vorname);
 			preparedStatement.setString(2, nachname);
 			preparedStatement.setDate(3, Date.valueOf(geburtsdatum));
-			preparedStatement.setInt(3, pflegegrad);
-			preparedStatement.setString(4, zimmer);
-			preparedStatement.setInt(5, vermoegen);
+			preparedStatement.setInt(4, pflegegrad);
+			preparedStatement.setString(5, zimmer);
+			preparedStatement.setInt(6, vermoegen);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

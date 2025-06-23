@@ -9,14 +9,10 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import DataLayer.DataAccessObjects.IDao;
 
 public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implements IDao<Patient, Integer> {
-
-	private PreparedStatement insertStatement;
-	private PreparedStatement updateStatement;
 
 	@Override
 	public Patient create(Patient t) {
@@ -104,7 +100,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected String getTableName() {
-		return "";
+		return "patienten";
 	}
 
 	@Override
@@ -119,12 +115,12 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected void setInsertStatement(PreparedStatement preparedStatement, Patient objectToInsert) {
-		this.insertStatement = mapPreparedStatementParameters(objectToInsert, preparedStatement);
+		mapPreparedStatementParameters(objectToInsert, preparedStatement);
 	}
 
 	@Override
 	protected void setUpdateStatement(PreparedStatement preparedStatement, Patient objectToUpdate) {
-
+		mapPreparedStatementParameters(objectToUpdate, preparedStatement);
 	}
 
 	@Override
@@ -134,7 +130,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected String getSqlInsert() {
-		return this.insertStatement.toString();
+		return "INSERT INTO " + getTableName() + " (vorname, nachname, geburtsdatum, pflegegrad, zimmer, vermoegen) VALUES (?, ?, ?, ?, ?, ?)";
 	}
 
 	@Override
@@ -142,7 +138,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 		return "UPDATE " + getTableName() + "SET (vorname = ?, nachname = ?, geburtsdatum = ?, pflegegrad = ?, zimmer = ?, vermoegen = ?) WHERE " + getPrimaryKeyColumn() + " = ?";
 	}
 
-	private PreparedStatement mapPreparedStatementParameters(Patient patient, PreparedStatement preparedStatement) {
+	private void mapPreparedStatementParameters(Patient patient, PreparedStatement preparedStatement) {
 		String vorname = patient.getVorname();
 		String nachname = patient.getNachname();
 		LocalDate geburtsdatum = patient.getGeburtsdatum();
@@ -161,7 +157,6 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 			throw new RuntimeException(e);
 		}
 
-		return preparedStatement;
 	}
 
 	@Override

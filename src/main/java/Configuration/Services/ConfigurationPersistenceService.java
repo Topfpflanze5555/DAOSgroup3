@@ -137,8 +137,8 @@ public class ConfigurationPersistenceService
     }
 
     /**
-     *
-     * @return load standard configuration
+     * load standard configuration
+     * @return standard configuration
      */
     private Configuration standardConfig()
     {

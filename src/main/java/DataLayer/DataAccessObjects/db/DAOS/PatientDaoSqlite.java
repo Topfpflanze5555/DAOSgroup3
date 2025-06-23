@@ -6,13 +6,14 @@ import Models.Patient;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 import DataLayer.DataAccessObjects.IDao;
 
-public class PatientDaoSqlite implements IDao<Patient, Long> {
+public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implements IDao<Patient, Integer> {
 
 	@Override
 	public Patient create(Patient t) {
@@ -22,7 +23,7 @@ public class PatientDaoSqlite implements IDao<Patient, Long> {
 
 		String vorname = t.getVorname();
 		String nachname = t.getNachname();
-		Integer pflegegrad = t.getPflegegrad();
+		int pflegegrad = t.getPflegegrad();
 		String zimmer = t.getZimmer();
 		int vermoegen = (int)t.getVermoegen()*100;
 
@@ -45,10 +46,36 @@ public class PatientDaoSqlite implements IDao<Patient, Long> {
 	}
 
 
-	@Override
 	public Patient read(Long Id) {
-		// TODO Auto-generated method stub
-		return null;
+		ConnectionManager conMan = new ConnectionManagerSqlite();
+		String stmt = "SELECT * FROM patienten WHERE ? = ?";
+		String primaryKeyColumn = this.getPrimaryKeyColumn();
+
+		ConnectionManager ConMan = new ConnectionManagerSqlite();
+
+		try {
+			Connection conn = ConMan.getNewConnection();
+			PreparedStatement pStmt = conn.prepareStatement(stmt);
+
+			pStmt.setString(1, primaryKeyColumn);
+			pStmt.setLong(2, Id);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			Patient patient = new Patient();
+			while (rs.next()) {
+				patient.setId(rs.getInt(primaryKeyColumn));
+				patient.setVorname(rs.getString(primaryKeyColumn));
+				patient.setNachname(rs.getString(primaryKeyColumn));
+				patient.setPflegegrad(rs.getInt(primaryKeyColumn));
+				patient.setZimmer(rs.getString(primaryKeyColumn));
+				patient.setVermoegen(rs.getInt(primaryKeyColumn));
+			}
+
+			return patient;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -63,10 +90,53 @@ public class PatientDaoSqlite implements IDao<Patient, Long> {
 		
 	}
 
-	@Override
 	public void delete(Long Id) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	protected String getTableName() {
+		return "";
+	}
+
+	@Override
+	protected String getPrimaryKeyColumn() {
+		return "id";
+	}
+
+	@Override
+	protected String getSqlCreateTableIfNotExists() {
+		return "";
+	}
+
+	@Override
+	protected void setInsertStatement(PreparedStatement preparedStatement, Patient objectToInsert) {
+
+	}
+
+	@Override
+	protected void setUpdateStatement(PreparedStatement preparedStatement, Patient objectToUpdate) {
+
+	}
+
+	@Override
+	protected void setGeneratedIdToObject(PreparedStatement preparedStatement, Patient objectToInsert) {
+
+	}
+
+	@Override
+	protected String getSqlInsert() {
+		return "";
+	}
+
+	@Override
+	protected String getSqlUpdate() {
+		return "";
+	}
+
+	@Override
+	protected Patient mapResultSetToObject(ResultSet resultSet) {
+		return null;
+	}
 }

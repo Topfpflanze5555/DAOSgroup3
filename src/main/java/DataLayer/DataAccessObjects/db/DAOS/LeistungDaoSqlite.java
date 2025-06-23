@@ -3,17 +3,10 @@ package DataLayer.DataAccessObjects.db.DAOS;
 import Models.Leistung;
 
 import java.util.List;
-import java.util.Optional;
 
 import DataLayer.DataAccessObjects.IDao;
 
 public class LeistungDaoSqlite implements IDao<Leistung, String> {
-
-	@Override
-	public Leistung create() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Leistung create(Leistung t) {

@@ -10,6 +10,8 @@ import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManagerSqlite;
 import Configuration.Models.Configuration.MODELS;
 import DataLayer.DataAccessObjects.File.DAOS.*;
 import Configuration.Exceptions.ConfigurationException;
+import Models.Leistung;
+import Models.Patient;
 
 
 import java.nio.file.*;
@@ -46,48 +48,33 @@ public class DataLayerFactory {
 	}
 	private IDao createDao(MODELS modelType, SAVEDTYPE DataSource)
 	{
-		switch(DataSource.name())
-		{
-		case "XML","CSV":
-		{
-			return createFileDao(modelType, DataSource);
-		}
-		case "SQLITE":
-		{
-			return createDbDao(modelType, DataSource);
-		}
-		default:
-			throw new ConfigurationException(DataSource.name()+" DataSource does not exist");
-		}
+        return switch (DataSource.name()) {
+            case "XML", "CSV" -> createFileDao(modelType, DataSource);
+            case "SQLITE" -> createDbDao(modelType, DataSource);
+            default -> throw new ConfigurationException(DataSource.name() + " DataSource does not exist");
+        };
 		
 		
 	}
 	private IDao createDbDao(MODELS modelType, SAVEDTYPE DataSource)
 	{
-		switch(modelType.name())
-		{
-		case"Leistung":
-		{
-			LeistungDaoSqlite service = new LeistungDaoSqlite();
-			return (IDao) service;
-		}
-		case"Patient":
-		{
-			PatientDaoSqlite service = new PatientDaoSqlite();
-			return (IDao) service;
-		}
-		case"Pflegekraft":
-		{
-			PflegekraftDaoSqlite service = new PflegekraftDaoSqlite();
-			return (IDao) service;
-		}
-		default:
-		{
-			throw new ConfigurationException("<"+modelType.name()+"> Model not Available");
-		}
-		}
+        return switch (modelType.name()) {
+            case "Leistung" -> {
+                LeistungDaoSqlite service = new LeistungDaoSqlite();
+                yield (IDao) service;
+            }
+            case "Patient" -> {
+                PatientDaoSqlite service = new PatientDaoSqlite();
+                yield (IDao) service;
+            }
+            case "Pflegekraft" -> {
+                PflegekraftDaoSqlite service = new PflegekraftDaoSqlite();
+                yield (IDao) service;
+            }
+            default -> throw new ConfigurationException("<" + modelType.name() + "> Model not Available");
+        };
 	}
-	private IDao createFileDao(MODELS modelType, SAVEDTYPE DataSource)
+	private <T,ID> IDao<T,ID>  createFileDao(MODELS modelType, SAVEDTYPE DataSource)
 	{
 		switch(modelType.name())
 		{
@@ -95,20 +82,20 @@ public class DataLayerFactory {
 		{
 			//setzt je nach File Type einen FilePersistenceService und den Pfad/URL aus der Config ein daoObject wird schlussendlich zurückgegeben
 			LeistungDaoFile service = new LeistungDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getURL(modelType)));
-			return  (IDao) service;
+			return  service;
 		}
 		case"Patient":
 		{
 			//setzt je nach File Type einen FilePersistenceService und den Pfad/URL aus der Config ein daoObject wird schlussendlich zurückgegeben
 			PatientDaoFile service = new PatientDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getURL(modelType)));
-			return (IDao) service;
+			return service;
 		}
 		case"Pflegekraft":
 		{
 			//setzt je nach File Type einen FilePersistenceService und den Pfad/URL aus der Config ein daoObject wird schlussendlich zurückgegeben
 			PflegekraftDaoFile service = new PflegekraftDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getURL(modelType)));
 
-			return (IDao) service;
+			return service;
 		}
 		default:
 		{

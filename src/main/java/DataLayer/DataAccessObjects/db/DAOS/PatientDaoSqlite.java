@@ -105,7 +105,15 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected String getSqlCreateTableIfNotExists() {
-		return "";
+		return "CREATE TABLE IF NOT EXISTS patienten (\n" +
+				"    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+				"    vorname TEXT NOT NULL,\n" +
+				"    nachname TEXT NOT NULL,\n" +
+				"    geburtsdatum REAL NOT NULL,\n" +
+				"    pflegegrad INTEGER,\n" +
+				"    zimmer INTEGER,\n" +
+				"    vermoegen INTEGER\n" + // SQLite doesnt support decimals. This means we just treat the last two digits of this number as decimals. So, 1.00 would be 100. Not great, but there isn't a better way of doing it.
+				")";
 	}
 
 	@Override

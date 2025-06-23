@@ -104,6 +104,19 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
             throw new RuntimeException(e);
         }
     }
+
+    public String getSqlReadId() {
+        return "SELECT * FROM " + getTableName() + " WHERE " + getPrimaryKeyColumn() + " = ?";
+    }
+
+    public String getSqlReadAll() {
+        return "SELECT * FROM " + getTableName();
+    }
+
+    public String getSqlDelete() {
+        return "DELETE FROM " + getTableName() + " WHERE " + getPrimaryKeyColumn() + " = ?";
+    }
+
 	protected abstract String getTableName();
 	
 	protected abstract String getPrimaryKeyColumn();
@@ -121,10 +134,6 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
      * @return prebuild SQL String for updating an object see setSqlUpdate
      */
 	protected abstract String getSqlUpdate();
-
-    protected abstract String getSqlReadId();
-    protected abstract String getSqlReadAll();
-    protected abstract String getSqlDelete();
 	
 	protected abstract T mapResultSetToObject(ResultSet resultSet);
 
@@ -139,7 +148,7 @@ public abstract class AbstractDaoSqlite<T, ID> implements IDao<T,ID> {
 	protected abstract void setGeneratedIdToObject(PreparedStatement preparedStatement, T objectToInsert);
 
     /**
-     * defines specific UpdateStatement with an object and its type
+     * Inserts required variables into parameterized sql update statement
      * @param preparedStatement parameterized SQL statement with '?' as parameters
      *
      */

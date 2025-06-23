@@ -15,6 +15,8 @@ import DataLayer.DataAccessObjects.IDao;
 
 public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implements IDao<Patient, Integer> {
 
+	private PreparedStatement insertStatement;
+
 	@Override
 	public Patient create(Patient t) {
 
@@ -112,7 +114,23 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected void setInsertStatement(PreparedStatement preparedStatement, Patient objectToInsert) {
+		String vorname = objectToInsert.getVorname();
+		String nachname = objectToInsert.getNachname();
+		int pflegegrad = objectToInsert.getPflegegrad();
+		String zimmer = objectToInsert.getZimmer();
+		int vermoegen = (int)objectToInsert.getVermoegen()*100;
 
+		try {
+			preparedStatement.setString(1, vorname);
+			preparedStatement.setString(2, nachname);
+			preparedStatement.setInt(3, pflegegrad);
+			preparedStatement.setString(4, zimmer);
+			preparedStatement.setInt(5, vermoegen);
+
+			this.insertStatement = preparedStatement;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

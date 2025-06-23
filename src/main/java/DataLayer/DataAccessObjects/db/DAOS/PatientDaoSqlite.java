@@ -93,11 +93,6 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 		return null;
 	}
 
-	public void delete(Long Id) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	protected String getTableName() {
 		return "patienten";
@@ -125,12 +120,31 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected void setGeneratedIdToObject(PreparedStatement preparedStatement, Patient objectToInsert) {
-
+		try {
+			objectToInsert.setId(preparedStatement.getGeneratedKeys().getInt(1));
+		}  catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	protected String getSqlInsert() {
 		return "INSERT INTO " + getTableName() + " (vorname, nachname, geburtsdatum, pflegegrad, zimmer, vermoegen) VALUES (?, ?, ?, ?, ?, ?)";
+	}
+
+	@Override
+	protected String getSqlReadId() {
+		return "SELECT * FROM " + getTableName() + " WHERE " + getPrimaryKeyColumn() + " = ?";
+	}
+
+	@Override
+	protected String getSqlReadAll() {
+		return "SELECT * FROM " + getTableName();
+	}
+
+	@Override
+	protected String getSqlDelete() {
+		return "DELETE FROM " + getTableName() + " WHERE " + getPrimaryKeyColumn() + " = ?";
 	}
 
 	@Override

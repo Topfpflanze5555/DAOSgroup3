@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +74,27 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	public List<Patient> read() {
-		// TODO Auto-generated method stub
+		ConnectionManager conMan = new ConnectionManagerSqlite();
+		String stmt = "SELECT ? FROM patienten";
+
+		List<Patient> patients = new ArrayList<>();
+
+		try {
+			Connection conn = conMan.getNewConnection();
+			PreparedStatement pStmt = conn.prepareStatement(stmt);
+			pStmt.setString(1, this.getPrimaryKeyColumn());
+
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt(this.getPrimaryKeyColumn());
+				patients.add(this.read(id));
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
 		return null;
 	}
 

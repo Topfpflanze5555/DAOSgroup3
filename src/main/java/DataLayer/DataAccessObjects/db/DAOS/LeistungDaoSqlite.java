@@ -42,20 +42,6 @@ public class LeistungDaoSqlite extends AbstractDaoSqlite<Leistung,String>  {
 		return "SET "+getTableName()+" = ?, bezeichnung = ?, beschreibung = ? WHERE " + getPrimaryKeyColumn() + " = ?";
 	}
 
-	@Override
-	protected String getSqlReadId() {
-		return "";
-	}
-
-	@Override
-	protected String getSqlReadAll() {
-		return "";
-	}
-
-	@Override
-	protected String getSqlDelete() {
-		return "";
-	}
 
 	@Override
 	protected Leistung mapResultSetToObject(ResultSet resultSet) {

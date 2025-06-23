@@ -2,12 +2,14 @@ package DataLayer.DataAccessObjects.db.DAOS;
 
 import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManager;
 import DataLayer.DataAccessObjects.db.DAOS.services.ConnectionManagerSqlite;
+import DataLayer.DataAccessObjects.db.DAOS.services.SQLiteFormatConverter;
 import Models.Patient;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,17 +66,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 			ResultSet rs = pStmt.executeQuery();
 
-			Patient patient = new Patient();
-			while (rs.next()) {
-				patient.setId(rs.getInt(primaryKeyColumn));
-				patient.setVorname(rs.getString(primaryKeyColumn));
-				patient.setNachname(rs.getString(primaryKeyColumn));
-				patient.setPflegegrad(rs.getInt(primaryKeyColumn));
-				patient.setZimmer(rs.getString(primaryKeyColumn));
-				patient.setVermoegen(rs.getInt(primaryKeyColumn));
-			}
-
-			return patient;
+            return mapResultSetToObject(rs);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -82,7 +74,27 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	public List<Patient> read() {
-		// TODO Auto-generated method stub
+		ConnectionManager conMan = new ConnectionManagerSqlite();
+		String stmt = "SELECT ? FROM patienten";
+
+		List<Patient> patients = new ArrayList<>();
+
+		try {
+			Connection conn = conMan.getNewConnection();
+			PreparedStatement pStmt = conn.prepareStatement(stmt);
+			pStmt.setString(1, this.getPrimaryKeyColumn());
+
+			ResultSet rs = pStmt.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt(this.getPrimaryKeyColumn());
+				patients.add(this.read(id));
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
 		return null;
 	}
 
@@ -145,7 +157,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected String getSqlInsert() {
-		return "";
+		return this.insertStatement.toString();
 	}
 
 	@Override
@@ -155,6 +167,19 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 
 	@Override
 	protected Patient mapResultSetToObject(ResultSet resultSet) {
-		return null;
+		Patient patient = new Patient();
+
+		try {
+			patient.setId(resultSet.getInt(this.getPrimaryKeyColumn()));
+			patient.setVorname(resultSet.getString("vorname"));
+			patient.setNachname(resultSet.getString("nachname"));
+			patient.setPflegegrad(resultSet.getInt("pflegegrad"));
+			patient.setZimmer(resultSet.getString("zimmer"));
+			patient.setVermoegen(SQLiteFormatConverter.formatIntToDouble(resultSet.getInt("vermoegen")));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return patient;
 	}
 }

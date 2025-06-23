@@ -71,8 +71,8 @@ public class ConfigurationPersistenceService
             }
             fr.close();
 
-
-            return new Configuration(output);
+            configuration = new Configuration(output);
+            return configuration;
 
         }
         catch (IOException | JSONException e) {

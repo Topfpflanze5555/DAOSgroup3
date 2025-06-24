@@ -21,7 +21,7 @@ public class DataLayerFactory {
 	public IDataLayer createDataLayer()
 	{
 		DataLayer output = new DataLayer();
-		//liesst die configuration aus und führt mit ausgelesenen parametern die createDao funktion auf
+		//liest die configuration aus und führt mit ausgelesenen parametern die createDao funktion auf
 		//für jeden datenTypen
 		{
 		SAVEDTYPE leistungSType = SAVEDTYPE.valueOf(configuration.getSavedType(MODELS.Leistung));
@@ -58,13 +58,10 @@ public class DataLayerFactory {
                 yield (IDao<T,ID>) getDataSourceDb(DataSource);
             }
             case "Patient" -> {
-                
+
                 yield (IDao<T,ID>) getDataSourceDb(DataSource);
             }
-            case "Pflegekraft" -> {
-                
-                yield (IDao<T,ID>) getDataSourceDb(DataSource);
-            }
+            case "Pflegekraft" -> (IDao<T,ID>) getDataSourceDb(DataSource);
             default -> throw new ConfigurationException("<" + modelType.name() + "> Model not Available");
         };
 	}

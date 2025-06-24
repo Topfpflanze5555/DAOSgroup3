@@ -68,6 +68,15 @@ public class DataLayerFactory {
             default -> throw new ConfigurationException("<" + modelType.name() + "> Model not Available");
         };
 	}
+
+	/**
+	 *
+	 * @param modelType enum which corresponds to a model type
+	 * @param DataSource enum which corresponds to a persistence service
+	 * @return Dao object for the specified configuration
+	 * @param <T> Type of the Model
+	 * @param <ID> Type of the Key variable of the model
+	 */
 	@SuppressWarnings("unchecked")
 	private <T,ID> IDao<T,ID>  createFileDao(MODELS modelType, SAVEDTYPE DataSource)
 	{

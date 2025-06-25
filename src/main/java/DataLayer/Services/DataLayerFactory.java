@@ -34,7 +34,7 @@ public class DataLayerFactory {
 		}
 		{
 		SAVEDTYPE pflegekraftSType = SAVEDTYPE.valueOf(configuration.getSavedType(MODELS.Pflegekraft));
-		output.setDaoLeistung(createDao(MODELS.Pflegekraft, pflegekraftSType));
+		output.setDaoPflegekraft(createDao(MODELS.Pflegekraft, pflegekraftSType));
 		}
 		return (IDataLayer) output;
 		
@@ -49,22 +49,26 @@ public class DataLayerFactory {
 		
 		
 	}
-	@SuppressWarnings("unchecked")
+
 	private <T,ID> IDao<T,ID> createDbDao(MODELS modelType, SAVEDTYPE DataSource)
 	{
-        return switch (modelType.name()) {
+        switch (modelType.name()) {
             case "Leistung" -> {
                 
-                yield (IDao<T,ID>) getDataSourceDb(DataSource);
+                return (IDao<T,ID>) getDataSourceDb(DataSource);
             }
             case "Patient" -> {
 
-                yield (IDao<T,ID>) getDataSourceDb(DataSource);
+                return (IDao<T,ID>) getDataSourceDb(DataSource);
             }
-            case "Pflegekraft" -> (IDao<T,ID>) getDataSourceDb(DataSource);
-            default -> throw new ConfigurationException("<" + modelType.name() + "> Model not Available");
-        };
-	}
+            case "Pflegekraft" -> {
+				return (IDao<T,ID>) getDataSourceDb(DataSource);
+			}
+			default -> {throw new ConfigurationException("<" + modelType.name() + "> Model not Available");}
+
+		}
+        }
+
 
 	/**
 	 *
@@ -77,13 +81,15 @@ public class DataLayerFactory {
 	@SuppressWarnings("unchecked")
 	private <T,ID> IDao<T,ID>  createFileDao(MODELS modelType, SAVEDTYPE DataSource)
 	{
+
 		switch(modelType.name())
 		{
 		case"Leistung":
 		{
 			//setzt je nach File Type einen FilePersistenceService und den Pfad/URL aus der Config ein daoObject wird schlussendlich zurückgegeben
-			
-			return (IDao<T,ID>)new LeistungDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getURL(modelType)));
+
+
+			 return  (IDao<T, ID>) new LeistungDaoFile(getDataSourceFile(DataSource), Paths.get(configuration.getURL(modelType)));
 			
 		}
 		case"Patient":
@@ -139,7 +145,7 @@ public class DataLayerFactory {
 		
 	}
 }
-		
+
 	
 	
 

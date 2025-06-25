@@ -1,8 +1,10 @@
 package DataLayer.DataAccessObjects.File.DAOS;
+import DataLayer.DataAccessObjects.IDao;
+
 import java.nio.file.*;
 import java.util.*;
 
-public abstract class AbstractDaoFile<T, ID> 
+public abstract class AbstractDaoFile<T, ID> implements IDao<T, ID>
 {
 	
 	private DataLayer.DataAccessObjects.File.Services.IFilePersistenceService<T> filePersistenceService;
@@ -16,6 +18,7 @@ public abstract class AbstractDaoFile<T, ID>
 		this.objectType = objectType;
 		this.filePath = filePath;
 	}
+	@Override
 	public T create(T objectToInsert)
 	{
 		loadObjectList();
@@ -23,6 +26,7 @@ public abstract class AbstractDaoFile<T, ID>
 		cachedObjectList.add(objectToInsert);
 		return objectToInsert;
 	}
+	@Override
 	public T read(ID id)
 	{
 		
@@ -40,12 +44,12 @@ public abstract class AbstractDaoFile<T, ID>
 		throw new DataLayer.Exceptions.DAOException("Object isn't listed");
 		
 	}
-	
+	@Override
 	public List<T> read()
 	{
 		return loadObjectList();
 	}
-	
+	@Override
 	public void update(T objectToUpdate)
 	{
 		loadObjectList();
@@ -62,6 +66,7 @@ public abstract class AbstractDaoFile<T, ID>
 		throw new DataLayer.Exceptions.DAOException("object does not exists in file");
 		
 	}
+	@Override
 	public void delete(ID id)
 	{
 		cachedObjectList.remove(read(id));

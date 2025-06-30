@@ -1,10 +1,30 @@
 package Models;
 
+import com.opencsv.bean.CsvBindByName;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+
+@XmlRootElement(name = "pflegekraft")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Pflegekraft
 {
+  @XmlAttribute(name = "id")
+  @CsvBindByName(column = "id")
   private long id;
+
+  @XmlAttribute(name = "vorname")
+  @CsvBindByName(column = "vorname")
   private String vorname;
+
+  @XmlAttribute(name = "nachname")
+  @CsvBindByName(column = "nachname")
   private String nachname;
+
+  @XmlAttribute(name = "telefon")
+  @CsvBindByName(column = "telefon")
   private String telefon;
 
   public Pflegekraft(){}

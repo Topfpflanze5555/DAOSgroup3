@@ -2,10 +2,13 @@ package DataLayer.DataAccessObjects.File.Services;
 
 import DataLayer.Exceptions.DAOException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +23,21 @@ public class FilePersistenceServiceXml<T> implements IFilePersistenceService<T> 
     {
       JAXBContext context = JAXBContext.newInstance(XmlWrapper.class, classType);
       Unmarshaller unmarshaller = context.createUnmarshaller();
-      XmlWrapper<T> wrapper = (XmlWrapper<T>) unmarshaller.unmarshal(filePath.toFile());
+
+      File FileToWrite = filePath.toFile();
+      FileToWrite.createNewFile();
+
+      XmlWrapper<T> wrapper = (XmlWrapper<T>) unmarshaller.unmarshal(FileToWrite);
       if (wrapper.getItems() == null)
       {
         return new ArrayList<>();
       }
       return wrapper.getItems();
-    } catch (JAXBException e)
+    } catch (Exception e)
     {
-      throw new DAOException(e.getMessage());
+      throw new RuntimeException(e.getMessage());
     }
+
   }
 
   @Override

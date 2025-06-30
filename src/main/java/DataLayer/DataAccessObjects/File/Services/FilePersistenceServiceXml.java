@@ -56,7 +56,7 @@ public class FilePersistenceServiceXml<T> implements IFilePersistenceService<T> 
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
       XmlWrapper<T> wrapper = new XmlWrapper<>(listToPersist);
       marshaller.marshal(wrapper, filePath.toFile());
-    } catch (JAXBException e)
+    } catch (Exception e)
     {
       throw new DAOException(e.getMessage());
     }

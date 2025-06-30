@@ -24,6 +24,7 @@ public abstract class AbstractDaoFile<T, ID> implements IDao<T, ID>
 		loadObjectList();
 		setIdToObjectToInsert(objectToInsert);
 		cachedObjectList.add(objectToInsert);
+		saveObjectList(cachedObjectList);
 		return objectToInsert;
 	}
 	@Override

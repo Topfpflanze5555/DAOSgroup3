@@ -25,7 +25,9 @@ public class FilePersistenceServiceXml<T> implements IFilePersistenceService<T> 
       Unmarshaller unmarshaller = context.createUnmarshaller();
 
       File FileToWrite = filePath.toFile();
-      FileToWrite.createNewFile();
+      if(!FileToWrite.exists() || FileToWrite.length() == 0) {
+        return new ArrayList<>();
+      }
 
       XmlWrapper<T> wrapper = (XmlWrapper<T>) unmarshaller.unmarshal(FileToWrite);
       if (wrapper.getItems() == null)

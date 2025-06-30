@@ -20,14 +20,17 @@ public class PatientDaoFile extends AbstractDaoFile<Patient, Long> {
 	@Override
 	protected void setIdToObjectToInsert(Patient objectToInsert) {
 		long id = 1;
-		for (Patient patient : read())
-		{
-			if (id <= patient.getId())
-			{
-				id = patient.getId()+1;
+
+		try {
+			for (Patient patient : read()) {
+				if (id <= patient.getId()) {
+					id = patient.getId() + 1;
+				}
 			}
+			objectToInsert.setId(id);
+		} catch (Exception e) {
+			//
 		}
-		objectToInsert.setId(id);
 		return;
 		
 	}

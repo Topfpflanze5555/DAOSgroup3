@@ -19,12 +19,17 @@ public class PflegekraftDaoFile extends AbstractDaoFile<Pflegekraft, Long> {
 	@Override
 	protected void setIdToObjectToInsert(Pflegekraft objectToInsert) {
 		long id = 1;
-		for (Pflegekraft pflegekraft : read())
-		{
-			if (id <= pflegekraft.getId())
+
+		try{
+			for (Pflegekraft pflegekraft : read())
 			{
-				id = pflegekraft.getId()+1;
+				if (id <= pflegekraft.getId())
+				{
+					id = pflegekraft.getId()+1;
+				}
 			}
+		} catch (Exception e) {
+			//
 		}
 		objectToInsert.setId(id);
 		

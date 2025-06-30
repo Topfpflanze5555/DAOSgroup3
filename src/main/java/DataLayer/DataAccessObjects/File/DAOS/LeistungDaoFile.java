@@ -1,7 +1,9 @@
 package DataLayer.DataAccessObjects.File.DAOS;
 import java.nio.file.Path;
+import java.util.UUID;
 
 import DataLayer.DataAccessObjects.File.Services.IFilePersistenceService;
+import DataLayer.DataAccessObjects.File.Services.XmlWrapper;
 import Models.Leistung;
 
 
@@ -21,17 +23,7 @@ public class LeistungDaoFile extends AbstractDaoFile<Leistung, String>
 	}
 	@Override
 	protected void setIdToObjectToInsert(Leistung objectToInsert) {
-		long lkNr = 1;
-		for (Leistung leistung : read())
-		{
-			if (lkNr <= Long.parseLong(leistung.getLkNr()))
-			{
-				lkNr = Long.parseLong(leistung.getLkNr())+1;
-			}
-		}
-		objectToInsert.setLkNr(Long.toString(lkNr));
-		return;
-		
+		objectToInsert.setLkNr(UUID.randomUUID().toString());
 	}
 
 	

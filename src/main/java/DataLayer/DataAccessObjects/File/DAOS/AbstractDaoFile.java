@@ -24,6 +24,7 @@ public abstract class AbstractDaoFile<T, ID> implements IDao<T, ID>
 		loadObjectList();
 		setIdToObjectToInsert(objectToInsert);
 		cachedObjectList.add(objectToInsert);
+
 		saveObjectList(cachedObjectList);
 		return objectToInsert;
 	}
@@ -84,7 +85,10 @@ public abstract class AbstractDaoFile<T, ID> implements IDao<T, ID>
 	}
 	private List<T> loadObjectList()
 	{
-		cachedObjectList = filePersistenceService.readFile(objectType, filePath);
+		if (filePath.toFile().exists())
+		{
+			cachedObjectList = filePersistenceService.readFile(objectType, filePath);
+		} else { cachedObjectList = new ArrayList<>(); }
 		return cachedObjectList;
 	}
 	private void saveObjectList(List<T> objectList)

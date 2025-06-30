@@ -27,7 +27,9 @@ public class FilePersistenceServiceCsv<T> implements IFilePersistenceService<T> 
 
   public FilePersistenceServiceCsv(char separator)
   {
+
     this.separator = separator;
+
   }
 
   private String[] getCsvColumnNames(Class<T> classType)
@@ -49,8 +51,11 @@ public class FilePersistenceServiceCsv<T> implements IFilePersistenceService<T> 
   @Override
   public List<T> readFile( Class<T> classType,Path filePath) throws DAOException
   {
+
+
     try (Reader reader = new FileReader(filePath.toFile()))
     {
+
       CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
         .withType(classType)
         .withIgnoreLeadingWhiteSpace(true)
@@ -68,6 +73,16 @@ public class FilePersistenceServiceCsv<T> implements IFilePersistenceService<T> 
   @Override
   public void writeFile(Class<T> classType,List<T> listToPersist, final Path filePath) throws DAOException
   {
+    if (!filePath.toFile().exists())
+    {
+      try {
+        //noinspection ResultOfMethodCallIgnored
+
+        filePath.toFile().createNewFile();
+      } catch (IOException e) {
+        throw new DAOException(e.getMessage());
+      }
+    }
     ColumnPositionMappingStrategy<T> mappingStrategy = new ColumnPositionMappingStrategy<>();
     mappingStrategy.setType(classType);
     String[] columns = getCsvColumnNames(classType);

@@ -20,7 +20,7 @@ public class DataLayerTest {
         leistung.setBeschreibung("blabla");
 
         Patient patient = new Patient();
-        patient.setGeburtsdatum(LocalDate.of(1890,4,20));
+        patient.setGeburtsdatum(LocalDate.of(1890,4,20).toString());
         patient.setId(1);
         patient.setNachname("Böhmermann");
         patient.setVorname("Jan");

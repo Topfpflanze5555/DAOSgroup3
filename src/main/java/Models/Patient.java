@@ -1,5 +1,6 @@
 package Models;
 
+import DataLayer.DataAccessObjects.File.Services.LocalDateAdapter;
 import com.opencsv.bean.CsvBindByName;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -7,12 +8,14 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.time.LocalDate;
 
 
 @XmlRootElement(name = "patient")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlJavaTypeAdapter(LocalDateAdapter.class)
 public class Patient
 {
 
@@ -30,7 +33,7 @@ public class Patient
 
   @XmlAttribute(name = "geburtsdatum")
   @CsvBindByName(column = "geburtsdatum")
-  private LocalDate geburtsdatum;
+  private String geburtsdatum;
 
   @XmlAttribute(name = "pflegegrad")
   @CsvBindByName(column = "pflegegrad")
@@ -78,12 +81,12 @@ public class Patient
     this.nachname = nachname;
   }
 
-  public LocalDate getGeburtsdatum()
+  public String getGeburtsdatum()
   {
     return geburtsdatum;
   }
 
-  public void setGeburtsdatum(LocalDate geburtsdatum)
+  public void setGeburtsdatum(String geburtsdatum)
   {
     this.geburtsdatum = geburtsdatum;
   }

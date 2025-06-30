@@ -64,7 +64,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 	private void mapPreparedStatementParameters(Patient patient, PreparedStatement preparedStatement) {
 		String vorname = patient.getVorname();
 		String nachname = patient.getNachname();
-		LocalDate geburtsdatum = patient.getGeburtsdatum();
+		String geburtsdatum = patient.getGeburtsdatum();
 		int pflegegrad = patient.getPflegegrad();
 		String zimmer = patient.getZimmer();
 		int vermoegen = (int)patient.getVermoegen()*100;
@@ -90,7 +90,7 @@ public class PatientDaoSqlite extends AbstractDaoSqlite<Patient, Integer> implem
 			patient.setId(resultSet.getInt(this.getPrimaryKeyColumn()));
 			patient.setVorname(resultSet.getString("vorname"));
 			patient.setNachname(resultSet.getString("nachname"));
-			patient.setGeburtsdatum(resultSet.getDate(4).toLocalDate());
+			patient.setGeburtsdatum(resultSet.getDate(4).toLocalDate().toString());
 			patient.setPflegegrad(resultSet.getInt("pflegegrad"));
 			patient.setZimmer(resultSet.getString("zimmer"));
 			patient.setVermoegen(SQLiteFormatConverter.formatIntToDouble(resultSet.getInt("vermoegen")));

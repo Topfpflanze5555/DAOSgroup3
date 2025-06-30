@@ -1,19 +1,52 @@
 package Models;
 
+import com.opencsv.bean.CsvBindByName;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+
 import java.time.LocalDate;
 
 
+@XmlRootElement(name = "patient")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Patient
 {
+
+  @XmlAttribute(name = "id")
+  @CsvBindByName(column = "id")
   private long id;
+
+  @XmlAttribute(name = "vorname")
+  @CsvBindByName(column = "vorname")
   private String vorname;
+
+  @XmlAttribute(name = "nachname")
+  @CsvBindByName(column = "nachname")
   private String nachname;
+
+  @XmlAttribute(name = "geburtsdatum")
+  @CsvBindByName(column = "geburtsdatum")
   private LocalDate geburtsdatum;
+
+  @XmlAttribute(name = "pflegegrad")
+  @CsvBindByName(column = "pflegegrad")
   private int pflegegrad;
+
+  @XmlAttribute(name = "zimmer")
+  @CsvBindByName(column = "zimmer")
   private String zimmer;
+
+  @XmlAttribute(name = "vermoegen")
+  @CsvBindByName(column = "vermoegen")
   private double vermoegen;
 
-  public Patient(){}
+  public Patient()
+  {
+  }
 
   public long getId()
   {

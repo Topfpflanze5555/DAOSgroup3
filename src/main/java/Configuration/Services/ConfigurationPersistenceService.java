@@ -143,6 +143,6 @@ public class ConfigurationPersistenceService
     private Configuration standardConfig()
     {
         
-        return new Configuration(Configuration.SAVEDTYPE.XML, "./Temp.xml", Configuration.SAVEDTYPE.XML, "./Temp.xml", Configuration.SAVEDTYPE.XML, "./Temp.xml");
+        return new Configuration(Configuration.SAVEDTYPE.XML, "./Temp1.xml", Configuration.SAVEDTYPE.XML, "./Temp2.xml", Configuration.SAVEDTYPE.XML, "./Temp3.xml");
     }
 }

@@ -73,16 +73,20 @@ public class FilePersistenceServiceCsv<T> implements IFilePersistenceService<T> 
   @Override
   public void writeFile(Class<T> classType,List<T> listToPersist, final Path filePath) throws DAOException
   {
-    if (!filePath.toFile().exists())
-    {
+
       try {
+
+        if (filePath.toFile().exists())
+        {
+          filePath.toFile().delete();
+        }
         //noinspection ResultOfMethodCallIgnored
 
         filePath.toFile().createNewFile();
       } catch (IOException e) {
         throw new DAOException(e.getMessage());
       }
-    }
+
     ColumnPositionMappingStrategy<T> mappingStrategy = new ColumnPositionMappingStrategy<>();
     mappingStrategy.setType(classType);
     String[] columns = getCsvColumnNames(classType);

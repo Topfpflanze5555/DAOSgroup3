@@ -47,6 +47,10 @@ public class FilePersistenceServiceXml<T> implements IFilePersistenceService<T> 
   {
     try
     {
+      if (filePath.toFile().exists())
+      {
+        filePath.toFile().delete();
+      }
       JAXBContext context = JAXBContext.newInstance(XmlWrapper.class, classType);
       Marshaller marshaller = context.createMarshaller();
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

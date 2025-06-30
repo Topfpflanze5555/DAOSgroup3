@@ -1,5 +1,8 @@
 package Models;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Leistung")
 public class Leistung {
   private String lkNr;
   private String bezeichnung;

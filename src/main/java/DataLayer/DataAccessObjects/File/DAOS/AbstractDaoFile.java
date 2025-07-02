@@ -7,9 +7,9 @@ import java.util.*;
 public abstract class AbstractDaoFile<T, ID> implements IDao<T, ID>
 {
 	
-	private DataLayer.DataAccessObjects.File.Services.IFilePersistenceService<T> filePersistenceService;
-	private Class<T> objectType;
-	private Path filePath;
+	private final DataLayer.DataAccessObjects.File.Services.IFilePersistenceService<T> filePersistenceService;
+	private final Class<T> objectType;
+	private final Path filePath;
 	protected List<T> cachedObjectList;
 	
 	AbstractDaoFile(DataLayer.DataAccessObjects.File.Services.IFilePersistenceService<T> filePersistenceService, Class<T> objectType, Path filePath)
@@ -73,7 +73,6 @@ public abstract class AbstractDaoFile<T, ID> implements IDao<T, ID>
 	{
 		cachedObjectList.remove(read(id));
 		saveObjectList(cachedObjectList);
-		return;
 	}
 	protected abstract ID getIdFromObject(T object);
 	

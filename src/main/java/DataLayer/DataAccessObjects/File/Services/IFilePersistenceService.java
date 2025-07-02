@@ -9,8 +9,8 @@ import java.util.List;
 public interface IFilePersistenceService<T>
 {
 
-  public List<T> readFile(Class<T> classType, Path filePath) throws DAOException;
+  List<T> readFile(Class<T> classType, Path filePath) throws DAOException;
 
-  public void writeFile(Class<T> classType, List<T> listToPersist, Path filePath) throws DAOException;
+  void writeFile(Class<T> classType, List<T> listToPersist, Path filePath) throws DAOException;
 
 }

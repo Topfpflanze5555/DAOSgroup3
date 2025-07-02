@@ -23,7 +23,7 @@ import java.util.List;
 
 public class FilePersistenceServiceCsv<T> implements IFilePersistenceService<T> {
 
-  private char separator;
+  private final char separator;
 
   public FilePersistenceServiceCsv(char separator)
   {

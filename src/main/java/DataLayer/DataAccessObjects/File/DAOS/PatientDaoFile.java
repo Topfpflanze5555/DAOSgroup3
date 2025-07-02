@@ -31,7 +31,7 @@ public class PatientDaoFile extends AbstractDaoFile<Patient, Long> {
 		} catch (Exception e) {
 			//
 		}
-		return;
+
 		
 	}
 }

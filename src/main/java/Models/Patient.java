@@ -1,6 +1,6 @@
 package Models;
 
-import DataLayer.DataAccessObjects.File.Services.LocalDateAdapter;
+import DataLayer.DataAccessObjects.File.Services.XmlLocalDateAdapter;
 import com.opencsv.bean.CsvBindByName;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 @XmlRootElement(name = "patient")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlJavaTypeAdapter(LocalDateAdapter.class)
+@XmlJavaTypeAdapter(XmlLocalDateAdapter.class)
 public class Patient
 {
 
